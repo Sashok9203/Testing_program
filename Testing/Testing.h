@@ -8,13 +8,6 @@
 #include "User.h"
 #include <stdio.h>
 
-
-
-
-
-
-
-
 class Testing
 {
 private:
@@ -25,7 +18,6 @@ private:
 	const char* admin_pass_label = "<pass_admin>";
 	const char* admin_users_label = "<admin_users>";
 	const char* tests_file_category_label = "<test_category>";
-
 	const char* admin_user_label = "<user>";
 	
 	std::string adminLogin;
@@ -37,8 +29,6 @@ private:
 	std::vector<std::string> usersLogins;
 	std::map<std::string, User*> users;
 
-	
-
 	void load_tests();
 	void load_users();
 	void save();
@@ -49,7 +39,6 @@ private:
 	bool showCategory() const;
 	bool showUsers(bool index = false) const;
 	
-
 	const std::string& chooseCategory() const;
 	const std::string& chooseTest(const std::string& category) const;
 	int getTestIndex(const std::string& category) const;
@@ -104,8 +93,6 @@ private:
 	void  editUsr (Testing& instance);
 	void  delUsr (Testing& instance);
 	void  showUsr(Testing& instance);
-
-
 	
 public:
 	Testing();

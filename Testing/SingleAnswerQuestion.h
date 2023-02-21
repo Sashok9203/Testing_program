@@ -15,6 +15,5 @@ public:
 	void fromFStream(std::ifstream& ifs) override;
 	int  answerToQestion() const override;
 	std::string answerToStr() const override { return std::string(rightAnswer + "# " + answersVariants[rightAnswer]); };
-	
 };
 

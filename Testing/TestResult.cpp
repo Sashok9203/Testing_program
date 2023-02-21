@@ -47,8 +47,6 @@ float TestResult::getRightAnswersPercent() const
 
 void TestResult::fromFStream(std::ifstream& ifs)
 {
-	//if(!goToLable(ifs,tres_lable))throw invalid_file_format("Mітку " + std::string(tres_lable) + " не знайдено");
-	
 	std::string tmp;
 	try
 	{

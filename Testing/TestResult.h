@@ -40,7 +40,5 @@ public:
 	float getRightAnswersPercent() const;
 	void fromFStream(std::ifstream& ifs);
 	void showResult(int index = 0) const;
-
-
 };
 

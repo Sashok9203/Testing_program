@@ -3,8 +3,6 @@
 #include <stdexcept>
 #include <string>
 
-
-
 // Question class exceptions
 
 class question_invalid_argument:public std::invalid_argument

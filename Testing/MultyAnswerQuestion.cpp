@@ -8,8 +8,6 @@ void MultyAnswerQuestion::addRightAnswer(const int answerIndex)
 	rightAnswers.push_back(answerIndex);
 }
 
-
-
 void MultyAnswerQuestion::setAnswer()
 {
 	Question::setAnswer();

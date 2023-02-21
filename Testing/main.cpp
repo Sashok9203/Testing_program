@@ -9,16 +9,8 @@ int main()
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
-	try
-	{
-		Testing testing;
-		testing.start();
-	}
-	catch (std::exception& ex)
-	{
-		std::cout << ex.what();
-	}
-	
+	Testing testing;
+	testing.start();
 }
 
 

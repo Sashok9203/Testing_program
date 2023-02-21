@@ -24,9 +24,6 @@ public:
 	Test(std::ifstream& ifs);
 	~Test();
 
-	
-
-
 	void addQuestion();
 	void delQuestion(int index);
 	

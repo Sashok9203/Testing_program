@@ -1,8 +1,5 @@
 #include "Test.h"
 
-
-
-
 void Test::addQuestion( Question* question)
 {
 	 if(question->getQuestion() !="NoQuestion") questions.push_back(question); 
@@ -58,8 +55,6 @@ void Test::delQuestion(int index)
 	questions.erase(questions.begin() + index);
 }
 
-
-
 void Test::loadQuestion(std::ifstream& ifs)
 {
     std:: string tmp;
@@ -107,7 +102,6 @@ void Test::setName(const std::string& name)
 	this->name = name;
 	
 }
-
 
 
 void Test::loadTest(const std::string& fileName)

@@ -14,7 +14,6 @@ struct LogPass
 	std::string password;
 };
 
-
 std::string idcrypt(const std::string& str);
 bool isFileExist(const std::string& fileName);
 bool goToLable(std::ifstream& ifs,const std::string& lable);

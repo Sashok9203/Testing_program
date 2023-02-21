@@ -1,0 +1,21 @@
+multy_answer_q
+
+<question>
+            ldskfjglksdjfg
+            dsfgjsdl;fjg
+            dsf;ojg;sdljfg 
+<question>
+
+<aswers>
+
+dsfgsdfg 
+
+<aswers>
+
+
+<r_aswers>
+
+1
+
+<r_aswers>
+

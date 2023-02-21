@@ -415,13 +415,13 @@ void Testing::adminTestsEdit(Testing & instance)
 }
 
 void Testing::adminStatProc(Testing& instance)
-{
+{/*
 	std::string cat = chooseCategory();
 	int index = getTestIndex(cat);
 	Test& test = *tests[cat].at(index);
 	TestResult tr;
 	tr.setCategory(cat);
-	passTest(test, tr);
+	passTest(test, tr);*/
 }
 
 void Testing::adminUserEdit(Testing& instance)

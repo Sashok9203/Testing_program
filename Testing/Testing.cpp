@@ -379,13 +379,14 @@ void Testing::addUsr(Testing& instance)
 
 void Testing::editUsr(Testing& instance)
 {
-	/*int ind;
+	int ind;
 	if (ind = getUserIndex(), ind < 0) return;
-	Menu<User, Testing> testsEdit(" -=  Адміністратор  =-\n          -*  Редагування користувача  *-", "Завершити",
-									 { {"Змінити дані ",&Testing::editUser},
-									 {"Видалити рез.тестів",&Testing::delTRes},
-									 {"Показати рез.тестів",&Testing::showTRes} }, *users.at(usersLogins[ind]), instance);
-	testsEdit.getMenuItem();*/
+	Menu<User, Testing> userEdit(" -=  Адміністратор  =-\n          -*  Редагування користувача  *-", "Завершити",
+									 { {"Змінити дані",     &Testing::editUserData},
+								     {"Видалити рез.тестів",&Testing::delUserTRes},
+									 {"Показати рез.тестів",&Testing::showUserTRes} }, *users.at(usersLogins[ind]), instance);
+	userEdit.getMenuItem();
+	save();
 }
 
 void Testing::delUsr(Testing& instance)
@@ -401,6 +402,98 @@ void Testing::delUsr(Testing& instance)
 void Testing::showUsr(Testing& instance)
 {
 	bool showUsers();
+}
+
+void Testing::editUserData(User& instance)
+{
+	int temp,select;
+	std::string tmp;
+	do
+	{
+		system("cls");
+		std::cout << "    ------ Змінити ------" << std::endl;
+		std::cout << "    [1] Ім'я" << std::endl;
+		std::cout << "    [2] Прізвище" << std::endl;
+		std::cout << "    [3] Країну" << std::endl;
+		std::cout << "    [4] Місто" << std::endl;
+		std::cout << "    [5] Вулицю" << std::endl;
+		std::cout << "    [6] Номер будинку" << std::endl;
+		std::cout << "    [7] Номер телефону" << std::endl;
+		std::cout << "    [8] Пароль" << std::endl;
+		std::cout << "    [9] Завершити" << std::endl;
+	    select = getValue(1, 9);
+		switch (select)
+		{
+		case 1:
+			std::cout << " Ім'я користувача : \"" << instance.getFI().name <<"\""<< std::endl;
+			instance.setName(getWord(" Введіть нове ім'я : "));
+			std::cout << " Ім'я користувача змінено на  \"" << instance.getFI().name << "\"" << std::endl;
+			break;
+		case 2:
+			std::cout << " Прізвище користувача : \"" << instance.getFI().surname << "\"" << std::endl;
+			instance.setSurname(getWord(" Введіть нове прізвище : "));
+			std::cout << " Прізвище користувача змінено на  \"" << instance.getFI().surname << "\"" << std::endl;
+
+			break;
+		case 3:
+			std::cout << " Країна користувача : \"" << instance.getAddres().country << "\"" << std::endl;
+			instance.setCountry(getString(" Введіть країну : "));
+			std::cout << " Країна користувача змінена на  \"" << instance.getAddres().country << "\"" << std::endl;
+
+			break;
+		case 4:
+			std::cout << " Місто користувача : \"" << instance.getAddres().city << "\"" << std::endl;
+			instance.setCity(getString(" Введіть місто : "));
+			std::cout << " Місто користувача змінено на  \"" << instance.getAddres().city << "\"" << std::endl;
+
+			break;
+		case 5:
+			std::cout << " Вулиця користувача : \"" << instance.getAddres().street << "\"" << std::endl;
+			instance.setStreet(getString(" Введіть вулицю : "));
+			std::cout << " Вулиця користувача змінена на  \"" << instance.getAddres().street << "\"" << std::endl;
+			break;
+		case 6:
+			std::cout << " Номер будинку користувача : \"" << instance.getAddres().homeNumber << "\"" << std::endl;
+			std::cout << " Введіть номер будинку : ";
+			std::cin >> temp;
+			instance.setHomeNumber(temp);
+			std::cout << " Номер будинку користувача змінений на  \"" << instance.getAddres().homeNumber << "\"" << std::endl;
+			break;
+		
+		case 7:
+			std::cout << " Номер телефону користувача : \"" << instance.getPhone()<< "\"" << std::endl;
+			instance.setPhone(getWord(" Введіть номер телефону : "));
+			std::cout << " Номер телефону змінений на  \"" << instance.getPhone() << "\"" << std::endl;
+			break;
+		case 8:
+			std::cout << " Пароль користувача : \"" << instance.getPassword() << "\"" << std::endl;
+			instance.setPassword(getWord(" Введіть новий пароль : "));
+			std::cout << " Проль змінений на  \"" << instance.getPassword() << "\"" << std::endl;
+			break;
+		default:
+			return;
+		}
+		save();
+		if (select != 9)system("pause>nul");
+	} while (select != 9);
+	
+}
+
+void Testing::delUserTRes(User& instance)
+{
+	system("cls");
+	instance.showResults(true);
+	std::cout << " Оберіть результат тестування : ";
+	instance.delResult(getValue(1, instance.getResultsCount()));
+	std::cout << " Результат тестування видалено ...";
+	system("pause>nul");
+}
+
+void Testing::showUserTRes(User& instance)
+{
+	system("cls");
+	instance.showResults();
+	system("pause>nul");;
 }
 
 
@@ -431,6 +524,7 @@ void Testing::adminUserEdit(Testing& instance)
 	 { "Редагувати",&Testing::editUsr },
 	 { "Видалити",&Testing::delUsr },
 	 { "Показати",&Testing::showUsr } }, instance, instance);
+	adminUserEdit.getMenuItem();
 }
 
 

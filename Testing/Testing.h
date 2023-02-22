@@ -87,12 +87,20 @@ private:
 	 void expCat(Testing& instance);
 	 void delCat(Testing& instance);
 
-	 //Функції меню dminUserEdit
+	 //Функції меню adminUsersEdit
 
 	void  addUsr (Testing& instance);
 	void  editUsr (Testing& instance);
 	void  delUsr (Testing& instance);
 	void  showUsr(Testing& instance);
+
+	//Функції меню userEdit
+	void editUserData(User& instance);
+	void delUserTRes(User& instance);
+    void showUserTRes(User& instance);
+
+
+
 	
 public:
 	Testing();

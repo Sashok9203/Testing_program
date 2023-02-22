@@ -222,7 +222,7 @@ bool getFSText(std::ifstream& ifs, std::string& str)
 std::string getString(const std::string& title)
 {
 	std::string tmp;
-	std::cout << title << std::endl;
+	std::cout << title ;
 	do { std::getline(std::cin, tmp); } while (isBlank(tmp));
 	return tmp;
 }

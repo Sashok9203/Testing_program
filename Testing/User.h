@@ -49,7 +49,7 @@ public:
 	const TestResult& getTestResult(int index);
 	void toFStream(std::ofstream& ofs) const ;
 	void fromFStream(std::ifstream& ifs);
-	void showResult(bool index) const;
+	void showResults(bool index = false) const;
 	void show(int index = 0) const;
 
 };

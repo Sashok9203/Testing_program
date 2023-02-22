@@ -57,7 +57,7 @@ void User::fromFStream(std::ifstream& ifs)
 	}
 }
 
-void User::showResult(bool index) const
+void User::showResults(bool index) const
 {
 	int ind = 1;
 	system("cls");

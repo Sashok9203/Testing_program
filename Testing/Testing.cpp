@@ -2,10 +2,10 @@
 
 void Testing::addQuestion(Test& instance)
 {
-	Menu<Test, Testing> editTest(" -=  Адміністратор  =-\n         -* Додати питання *-", "Завершити",
-								 { {"Ввести",&Testing::createQuestion},
-								 {"Завантажити",&Testing::loadQuestion},
-								 }, instance, *this);
+	Menu<Test, Testing> editTest(
+		" -=  Адміністратор  =-\n         -* Додати питання *-", "Завершити",
+		{ {"Ввести",&Testing::createQuestion},
+		  {"Завантажити",&Testing::loadQuestion} }, instance, *this);
 	editTest.getMenuItem();
 	save();
 }
@@ -209,7 +209,6 @@ void Testing::editTest(Testing& instance)
 		{"Завантажити питання",&Testing::loadQuestion},
 		{"Зберегти питання",&Testing::saveQuestion}}, *test, instance);
 	editTest.getMenuItem();
-	save();
 }
 
 void Testing::delTest(Testing& instance)
@@ -381,12 +380,13 @@ void Testing::editUsr(Testing& instance)
 {
 	int ind;
 	if (ind = getUserIndex(), ind < 0) return;
-	Menu<User, Testing> userEdit(" -=  Адміністратор  =-\n          -*  Редагування користувача  *-", "Завершити",
-									 { {"Змінити дані",     &Testing::editUserData},
-								     {"Видалити рез.тестів",&Testing::delUserTRes},
-									 {"Показати рез.тестів",&Testing::showUserTRes} }, *users.at(usersLogins[ind]), instance);
+	Menu<User, Testing> userEdit(
+		" -=  Адміністратор  =-\n          -*  Редагування користувача  *-", "Завершити",
+		 { {"Змінити дані",     &Testing::editUserData},
+		   {"Видалити рез.тестів",&Testing::delUserTRes},
+		   {"Показати рез.тестів",&Testing::showUserTRes} },
+		*users.at(usersLogins[ind]), instance);
 	userEdit.getMenuItem();
-	save();
 }
 
 void Testing::delUsr(Testing& instance)
@@ -397,6 +397,7 @@ void Testing::delUsr(Testing& instance)
 	usersLogins.erase(usersLogins.begin() + ind);
 	std::cout << " Користувача видалено из системи....";
 	system("pause>nul");
+	save();
 }
 
 void Testing::showUsr(Testing& instance)
@@ -411,6 +412,8 @@ void Testing::editUserData(User& instance)
 	do
 	{
 		system("cls");
+		instance.show();
+		std::cout << "  ------------------------\n" << std::endl;
 		std::cout << "    ------ Змінити ------" << std::endl;
 		std::cout << "    [1] Ім'я" << std::endl;
 		std::cout << "    [2] Прізвище" << std::endl;
@@ -420,8 +423,9 @@ void Testing::editUserData(User& instance)
 		std::cout << "    [6] Номер будинку" << std::endl;
 		std::cout << "    [7] Номер телефону" << std::endl;
 		std::cout << "    [8] Пароль" << std::endl;
-		std::cout << "    [9] Завершити" << std::endl;
-	    select = getValue(1, 9);
+		std::cout << "    [9] Логін" << std::endl;
+		std::cout << "    [10] Завершити" << std::endl;
+	    select = getValue(1, 10);
 		switch (select)
 		{
 		case 1:
@@ -470,12 +474,18 @@ void Testing::editUserData(User& instance)
 			instance.setPassword(getWord(" Введіть новий пароль : "));
 			std::cout << " Проль змінений на  \"" << instance.getPassword() << "\"" << std::endl;
 			break;
+		case 9:
+			std::cout << " Логін користувача : \"" << instance.getlogin() << "\"" << std::endl;
+			instance.setPassword(getWord(" Введіть новий логін : "));
+			std::cout << " Логін змінений на  \"" << instance.getlogin() << "\"" << std::endl;
+			std::cout << " Зміна вступить в силу після перезавантаження программи..." << std::endl;
+			break;
 		default:
 			return;
 		}
 		save();
-		if (select != 9)system("pause>nul");
-	} while (select != 9);
+		if (select != 10)system("pause>nul");
+	} while (select != 10);
 	
 }
 
@@ -484,53 +494,74 @@ void Testing::delUserTRes(User& instance)
 	system("cls");
 	instance.showResults(true);
 	std::cout << " Оберіть результат тестування : ";
-	instance.delResult(getValue(1, instance.getResultsCount()));
+	instance.delResult(getValue(1, instance.getResultsCount())-1);
 	std::cout << " Результат тестування видалено ...";
 	system("pause>nul");
+	save();
 }
 
 void Testing::showUserTRes(User& instance)
 {
 	system("cls");
 	instance.showResults();
-	system("pause>nul");;
 }
 
 
 void Testing::adminTestsEdit(Testing & instance)
 {
-    Menu<Testing, Testing> testsEdit(" -=  Адміністратор  =-\n          -*  Редагування  *-","Завершити",
+    Menu<Testing, Testing> testsEdit(
+		" -=  Адміністратор  =-\n          -*  Редагування  *-","Завершити",
 		{ {"Редагування тестів",&Testing::adminTest},///
 		{"Редагувати розділів",&Testing::adminCat},///
-		{"Показати ієрархію тестів",&Testing::showTestHierarchy} }, instance,instance);///
+		{"Показати ієрархію тестів",&Testing::showTestHierarchy} },
+		 instance,instance);///
 	testsEdit.getMenuItem();
 	
 }
 
 void Testing::adminStatProc(Testing& instance)
-{/*
-	std::string cat = chooseCategory();
-	int index = getTestIndex(cat);
-	Test& test = *tests[cat].at(index);
-	TestResult tr;
-	tr.setCategory(cat);
-	passTest(test, tr);*/
+{
+
+
 }
 
 void Testing::adminUserEdit(Testing& instance)
 {
-	Menu<Testing, Testing> adminUserEdit(" -= Адміністратор = -\n - *Редагування користувачів * -", "Завершити",
-	{ { "Додати", & Testing::addUsr },
-	 { "Редагувати",&Testing::editUsr },
-	 { "Видалити",&Testing::delUsr },
-	 { "Показати",&Testing::showUsr } }, instance, instance);
+	Menu<Testing, Testing> adminUserEdit(
+		" -= Адміністратор = -\n - *Редагування користувачів * -", "Завершити",
+	    { { "Додати", & Testing::addUsr },
+	      { "Редагувати",&Testing::editUsr },
+	      { "Видалити",&Testing::delUsr },
+	      { "Показати",&Testing::showUsr } }
+	      , instance, instance);
 	adminUserEdit.getMenuItem();
 }
 
-
-
-
-
+void Testing::adminLPEdit(Testing& instance)
+{
+	bool seted = false;
+	system("cls");
+	do
+	{
+		system("cls");
+		std::cout << " -=  Адміністратор  =-" << std::endl;
+		LogPass tmp = getLogPas();
+		if (!users.count(tmp.login))
+		{
+			adminLogin = tmp.login;
+			adminPassword = tmp.password;
+			std::cout << "\n Логін та пароль адміністратора встановлено";
+			system("pause>nul");
+			save();
+			seted = true;
+		}
+		else
+		{
+			std::cout << " Такий логін вже існує в системі ....";
+			system("pause>nul");
+		}
+	} while (!seted);
+}
 
 void Testing::load_tests()
 {
@@ -572,12 +603,6 @@ void Testing::load_users()
 	ifs.close();
 }
 
-
-
-
-
-
-
 void Testing::save()
 {
 	std::ofstream ofs(admin_file);
@@ -606,12 +631,7 @@ void Testing::save()
 	ofs.close();
 }
 
-void Testing::userProcess(const std::string& userLogin)
-{
-	system("cls");
-	users[userLogin]->show(12);
-	system("pause>nul");
-}
+
 
 Testing::Testing()
 {
@@ -633,13 +653,7 @@ Testing::Testing()
 	}
 	else
 	{
-		std::cout << " -=  Адміністратор  =-" << std::endl;
-		LogPass tmp = getLogPas();
-		adminLogin = tmp.login;
-		adminPassword = tmp.password;
-		
-		std::cout << "\n Логін та пароль адміністратора встановлено\n Программа готова до роботи...";
-		system("pause>nul");
+		adminLPEdit(*this);
 	}
 }
 
@@ -654,23 +668,64 @@ Testing::~Testing()
 }
 
 
+void Testing::userProcess(const std::string& userLogin)
+{
+	system("cls");
+	Menu<User, Testing> userMenu(" -= " + users[userLogin]->getFI().name + "  " + users[userLogin]->getFI().surname + " =-", "Вихід",
+								 { {"Пройти тест",    &Testing::userPassTest},
+								   {"Результати тестів",&Testing::userTestsRes} },
+								  *users[userLogin], *this);
+    userMenu.getMenuItem();
+}
+
 void Testing::adminProcess()
 {
+	system("cls");
 	Menu<Testing, Testing> adminMenu(" -=  Адміністратор  =-","Вихід",
 		{ {"Статистика",&Testing::adminStatProc},
 		{"Управління тестами",&Testing::adminTestsEdit},
-		{"Управління користувачами",&Testing::adminUserEdit} },*this, * this);
-
-	system("cls");
-	std::cout << " Ви увійшли як адміністратор";
-	system("pause>nul");
-	system("cls");
+		{"Управління користувачами",&Testing::adminUserEdit},
+        {"Зміна логіна і пароля",&Testing::adminLPEdit}},*this, * this);
 	adminMenu.getMenuItem();
 }
 
+void Testing::userPassTest(User& instance)
+{
+	system("cls");
+	std::string cat = chooseCategory();
+	int testInd = getTestIndex(cat);
+	if (testInd < 0) return;
+	Test* test = tests[cat].at(testInd);
+	TestResult* tPtr = nullptr;
+	TestResult tRes;
+	bool exist = false;
+	for (int i = 0; i < instance.getResultsCount(); i++)
+		if (test->getName() == instance.getTestResult(i).getName())
+		{
+			tPtr = &instance.getTestResult(i);
+			exist = true;
+			break;
+		}
+	if (tPtr && tPtr->isPassed())
+	{
+		std::cout << " Цей тест вже пройдений....";
+		system("pause>nul");
+		return;
+	}
+	if (!tPtr)
+	{
+		tRes.setCategory(cat);
+		tPtr = &tRes;
+	}
+	passTest(*test, *tPtr);
+	if (!exist) instance.addResult(tRes);
+	save();
+}
 
-
-
+void Testing::userTestsRes(User& instance)
+{
+	showUserTRes(instance);
+}
 
 void Testing::addCategory(const std::string& category)
 {
@@ -684,24 +739,25 @@ void Testing::addCategory(const std::string& category)
 
 void Testing::adminTest(Testing& instance)
 {
-	Menu<Testing, Testing> testsEdit(" -=  Адміністратор  =-\n         -*  Редагування тестів  *-", "Завершити",
-									 { {"Cтворити",&Testing::createTest},///
-									 {"Редагувати",&Testing::editTest},///
-									 {"Видалити",&Testing::delTest},///
-									 {"Показати",&Testing::showTest},
-									 {"Імпортувати",&Testing::impTest},////
-									 {"Експортувати",&Testing::expTest}, }, instance, instance);///
+	Menu<Testing, Testing> testsEdit(
+		" -=  Адміністратор  =-\n         -*  Редагування тестів  *-", "Завершити",
+		{ {"Cтворити",&Testing::createTest},///
+		  {"Редагувати",&Testing::editTest},///
+		  {"Видалити",&Testing::delTest},///
+		  {"Показати",&Testing::showTest},
+		  {"Імпортувати",&Testing::impTest},////
+		  {"Експортувати",&Testing::expTest}, }, instance, instance);///
 	testsEdit.getMenuItem();
 }
 
 void Testing::adminCat(Testing& instance)
 {
-	Menu<Testing, Testing> testsEdit(" -=  Адміністратор  =-\n          -* Редагування розділів *-", "Завершити",
-									 { 
-									 {"Додати",&Testing::addCat},///
-									 {"Видалити",&Testing::delCat},///
-									 {"Імпортувати",&Testing::impCat},///
-									 {"Експортувати",&Testing::expCat},}, instance, instance);///
+	Menu<Testing, Testing> testsEdit(
+		" -=  Адміністратор  =-\n          -* Редагування розділів *-", "Завершити",
+		{{"Додати",&Testing::addCat},///
+		{"Видалити",&Testing::delCat},///
+		{"Імпортувати",&Testing::impCat},///
+		{"Експортувати",&Testing::expCat},}, instance, instance);///
 	testsEdit.getMenuItem();
 }
 
@@ -846,7 +902,7 @@ void Testing::passTest(Test& test, TestResult& tr)
 		tr.setTestQuestionCount(test.getQuestCount());
 	}
 	
-	for (int i = tr.getLastQuestionIndex(); i < test.getQuestCount(); i++)
+	for (int i = tr.getNextQuestionIndex() ; i < test.getQuestCount(); i++)
 	{
 		system("cls");
 		const Question* q = &test.getQuestion(i);
@@ -855,7 +911,7 @@ void Testing::passTest(Test& test, TestResult& tr)
 		int points = q->answerToQestion();
 		if (points == 12) tr.addRightAnswer();
 		tr.addPoints(points);
-		tr.setLastQuestionIndex(i);
+		tr.setNextQuestionIndex(i+1);
 		std::cout << " Відповідь прийнята..." << std::endl;
 		if (i != test.getQuestCount() - 1)
 		{
@@ -892,9 +948,11 @@ const std::string& Testing::chooseCategory() const
 
 void Testing::start()
 {	
-	Menu<Testing,Testing> enterReg("Программа тестування","Завершити",
+	Menu<Testing,Testing> enterReg(
+		    "Программа тестування","Завершити",
 			{ {"Вхід",&Testing::Enter},
-			{"Реєстрація",&Testing::Registration} },*this,* this);
+			{"Реєстрація",&Testing::Registration} }, 
+		    *this,* this);
 	enterReg.getMenuItem();
 	save();
 }

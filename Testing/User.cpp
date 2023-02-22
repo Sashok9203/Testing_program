@@ -6,7 +6,7 @@ void User::delResult(int ind)
 	tResults.erase(tResults.begin() + ind);
 }
 
-const TestResult& User::getTestResult(int index)
+ TestResult& User::getTestResult(int index)
 {
 	if (index < 0 || index >= tResults.size()) throw std::exception(" Невірний індекс масиву результатів");
 	return tResults[index];
@@ -52,7 +52,7 @@ void User::fromFStream(std::ifstream& ifs)
 	setLogin(idcrypt(tmp));
 	if (goToLable(ifs, user_results))
 	{
-		while (goToLable(ifs, TestResult::tres_data_lable))
+		while (goToLable(ifs, TestResult::tres_lable))
 			addResult(TestResult(ifs));
 	}
 }

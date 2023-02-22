@@ -3,7 +3,7 @@
 
 
 TestResult::TestResult(const std::string& name, const std::string& category, int testQuestionCount)
-	:rightAnswersCount(0), points(0), lastQuestionIndex(0), passed(false)
+	:rightAnswersCount(0), points(0), nextQuestionIndex(0), passed(false)
 {
 	if ( isBlank(name) ||isBlank(category) || testQuestionCount <= 0)
 		throw std::invalid_argument("Невірний аргумент конструктора TestResult ");
@@ -12,10 +12,10 @@ TestResult::TestResult(const std::string& name, const std::string& category, int
 	this->testQuestionCount = testQuestionCount;
 }
 
-void TestResult::setLastQuestionIndex(int index)
+void TestResult::setNextQuestionIndex(int index)
 {
 	if (index < 0 || index>testQuestionCount) throw std::exception("Не вірний індекс питання");
-	this->points = points;
+	this->nextQuestionIndex = index;
 }
 
 void TestResult::toFStream(std::ofstream& ofs) const
@@ -30,7 +30,7 @@ void TestResult::toFStream(std::ofstream& ofs) const
 	ofs << points << std::endl;
 	ofs << testQuestionCount << std::endl;
 	ofs << rightAnswersCount << std::endl;
-	ofs << lastQuestionIndex << std::endl;
+	ofs << nextQuestionIndex << std::endl;
 }
 
 int TestResult::getRating() const
@@ -52,17 +52,19 @@ void TestResult::fromFStream(std::ifstream& ifs)
 	{
 		if (goToLable(ifs, tname_lable))
 		{
-			if (!getFSWord(ifs, tmp)) throw invalid_file_format("Назву тесту не знайдено");
+			if (!getFSString(ifs, tmp)) throw invalid_file_format("Назву тесту не знайдено");
 			name = tmp;
 		}
 		if (goToLable(ifs, tcat_lable))
 		{
-			if (!getFSWord(ifs, tmp)) throw invalid_file_format("Категорію тесту не знайдено");
+			if (!getFSString(ifs, tmp)) throw invalid_file_format("Категорію тесту не знайдено");
 			category = tmp;
 		}
+		if (!goToLable(ifs, tres_data_lable))	 throw invalid_file_format("Даних тесту не знайдено");
+		
 		int set = 1;
 		int temp;
-		while (ifs >> temp)
+		while (ifs >> temp && set != 6)
 		{
 			switch (set)
 			{
@@ -79,12 +81,12 @@ void TestResult::fromFStream(std::ifstream& ifs)
 				rightAnswersCount = temp;
 				break;
 			default:
-				setLastQuestionIndex(temp);
+				setNextQuestionIndex(temp);
 				break;
 			}
 			++set;
 		}
-		if (set != 5) throw std::invalid_argument(" не вистачае параметрів класу ТestResult");
+		if (set < 6) throw std::invalid_argument(" не вистачае параметрів класу ТestResult");
 	
 	}
 	catch (const std::invalid_argument& ex)
@@ -97,6 +99,7 @@ void TestResult::showResult(int index ) const
 {
     std::cout << " --  Результат тестування  " ;
 	if (index) std::cout << index << " --" << std::endl;
+	else std::cout << " --" << std::endl;
 	std::cout << "  Назва           : " << name << std::endl;
 	std::cout << "  Категорія       : " << category << std::endl;
 	std::cout << "  Процент         : " << getRightAnswersPercent() << " %" << std::endl;

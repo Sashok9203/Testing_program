@@ -32,8 +32,6 @@ private:
 	void load_tests();
 	void load_users();
 	void save();
-	void userProcess(const std::string& userLogin);
-	void adminProcess();
 	void addCategory(const std::string& category);
 	bool showTests(const std::string& category) const;
 	bool showCategory() const;
@@ -47,6 +45,12 @@ private:
 	int getQuestionIndex(const Test& test);
 	void passTest(Test& test, TestResult& tr);
 
+	void userProcess(const std::string& userLogin);
+	void adminProcess();
+
+	/// Функції  меню userMenu
+	void userPassTest(User& instance);
+	void userTestsRes(User& instance);
 
 	/// Функції  меню createQuest
 	void createQuestion(Test& instance);
@@ -67,6 +71,7 @@ private:
 	 void adminStatProc(Testing& instance);
 	 void adminTestsEdit(Testing& instance);
 	 void adminUserEdit(Testing& instance);
+	 void adminLPEdit(Testing& instance);
 
 	//Функції меню testsEdit
 	 void adminTest(Testing& instance);
@@ -88,19 +93,15 @@ private:
 	 void delCat(Testing& instance);
 
 	 //Функції меню adminUsersEdit
+	 void  addUsr (Testing& instance);
+	 void  editUsr (Testing& instance);
+	 void  delUsr (Testing& instance);
+	 void  showUsr(Testing& instance);
 
-	void  addUsr (Testing& instance);
-	void  editUsr (Testing& instance);
-	void  delUsr (Testing& instance);
-	void  showUsr(Testing& instance);
-
-	//Функції меню userEdit
-	void editUserData(User& instance);
-	void delUserTRes(User& instance);
-    void showUserTRes(User& instance);
-
-
-
+	 //Функції меню userEdit
+	 void editUserData(User& instance);
+	 void delUserTRes(User& instance);
+	 void showUserTRes(User& instance);
 	
 public:
 	Testing();

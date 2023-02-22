@@ -46,7 +46,7 @@ public:
 
 	void addResult(const TestResult& result) { tResults.push_back(result); };
 	void delResult(int ind);
-	const TestResult& getTestResult(int index);
+	TestResult& getTestResult(int index);
 	void toFStream(std::ofstream& ofs) const ;
 	void fromFStream(std::ifstream& ifs);
 	void showResults(bool index = false) const;

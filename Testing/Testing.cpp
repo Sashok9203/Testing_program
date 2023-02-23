@@ -16,11 +16,11 @@ void Testing::editQuestion(Test& instance)
 	Question& quest = instance.getQuestion(ind);
 	system("cls");
 	std::cout << quest.getString();
-	std::cout << "    ------ Змінити ------" << std::endl;
-	std::cout << "    [1] Питання" << std::endl;
-	std::cout << "    [2] Варіанти відповідей" << std::endl;
-	std::cout << "    [3] Правильні відповіді" << std::endl;
-	std::cout << "    [4] Завершити" << std::endl;
+	std::cout << "         ------ Змінити ------" << std::endl;
+	std::cout << "       [1] Питання" << std::endl;
+	std::cout << "       [2] Варіанти відповідей" << std::endl;
+	std::cout << "       [3] Правильні відповіді" << std::endl;
+	std::cout << "       [4] Завершити" << std::endl;
 	int select = getValue(1, 4);
 	switch (select)
 	{
@@ -424,18 +424,18 @@ void Testing::editUserData(User& instance)
 	{
 		system("cls");
 		std::cout << instance.getUserStr();
-		std::cout << "  ------------------------\n" << std::endl;
-		std::cout << "    ------ Змінити ------" << std::endl;
-		std::cout << "    [1] Ім'я" << std::endl;
-		std::cout << "    [2] Прізвище" << std::endl;
-		std::cout << "    [3] Країну" << std::endl;
-		std::cout << "    [4] Місто" << std::endl;
-		std::cout << "    [5] Вулицю" << std::endl;
-		std::cout << "    [6] Номер будинку" << std::endl;
-		std::cout << "    [7] Номер телефону" << std::endl;
-		std::cout << "    [8] Пароль" << std::endl;
-		std::cout << "    [9] Логін" << std::endl;
-		std::cout << "    [10] Завершити" << std::endl;
+		std::cout << "        ------------------------\n" << std::endl;
+		std::cout << "          ------ Змінити ------" << std::endl;
+		std::cout << "          [1] Ім'я" << std::endl;
+		std::cout << "          [2] Прізвище" << std::endl;
+		std::cout << "          [3] Країну" << std::endl;
+		std::cout << "          [4] Місто" << std::endl;
+		std::cout << "          [5] Вулицю" << std::endl;
+		std::cout << "          [6] Номер будинку" << std::endl;
+		std::cout << "          [7] Номер телефону" << std::endl;
+		std::cout << "          [8] Пароль" << std::endl;
+		std::cout << "          [9] Логін" << std::endl;
+		std::cout << "          [10] Завершити" << std::endl;
 	    select = getValue(1, 10);
 		switch (select)
 		{
@@ -555,10 +555,10 @@ void Testing::totalTest(Testing& instance)
 {
 	system("cls");
 	std::stringstream ss;
-	ss << "    ############## Сумарна статистика ##############\n" << std::endl;
+	ss << "      ############## Сумарна статистика ##############\n" << std::endl;
 	for (const auto& val : tests)
 		ss << getCatStat(val.first);
-	ss << "    ################################################\n" << std::endl;
+	ss << "      ################################################\n" << std::endl;
 	std::cout << ss.str();
 	saveStrToFile("\n Бажаєте зберегти статистику (Tab) ?", ss.str());
 }
@@ -742,7 +742,6 @@ Testing::Testing()
 
 Testing::~Testing()
 {
-	//save();
 	for (auto& val : tests)
 		for (auto& v : val.second)
 			delete v;
@@ -1058,20 +1057,20 @@ std::string Testing::getTestStat(int ind, const std::string& cat) const
 	}
 	averRAnsverRepcent = (averRAnsverRepcent != 0) ? averRAnsverRepcent /= passTestCount : 0;
 	averRating = (passTestCount == 0) ? 0 : round((float)averRating / (float)passTestCount);
-	ss << "       --------------  Тест  --------------" << std::endl;
-	ss << "       Назва               : " << tName << std::endl;
-	ss << "       Розділ              : " << cat << std::endl;
-	ss << "       Середня оціка       : " << averRating << std::endl;
-	ss << "       Кількість пр.відп.  : " << std::fixed << std::setprecision(2) << averRAnsverRepcent << " %" << std::endl;
-	ss << "       Розочали  тест      : " << startTestCount << std::endl;
-	ss << "       Завершили тест      : " << passTestCount << std::endl;
-	ss << "       ------------------------------------" << std::endl << std::endl;
-	ss << "       ------------------------------------" << std::endl;
+	ss << "          --------------  Тест  --------------" << std::endl;
+	ss << "          Назва               : " << tName << std::endl;
+	ss << "          Розділ              : " << cat << std::endl;
+	ss << "          Середня оціка       : " << averRating << std::endl;
+	ss << "          Кількість пр.відп.  : " << std::fixed << std::setprecision(2) << averRAnsverRepcent << " %" << std::endl;
+	ss << "          Розочали  тест      : " << startTestCount << std::endl;
+	ss << "          Завершили тест      : " << passTestCount << std::endl;
+	ss << "          ------------------------------------" << std::endl << std::endl;
+	ss << "          ------------------------------------" << std::endl;
 	for (const auto& val : tmp)
 	{
 		ss << val.first->getShortStatStr() << std::endl;
-		ss << "       " << val.second.getResStr() << std::endl;
-		ss << "       ------------------------------------" << std::endl << std::endl;
+		ss << val.second.getResStr() << std::endl;
+		ss << "           ------------------------------------" << std::endl << std::endl;
 	}
 	return ss.str();
 }
@@ -1085,7 +1084,7 @@ std::string Testing::getCatStat(const std::string& cat) const
 	{
 
 		ss << getTestStat(i, cat);
-		ss << "    *****************************************\n" << std::endl;
+		ss << "         *****************************************\n" << std::endl;
 	}
 	return ss.str();
 }

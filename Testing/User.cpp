@@ -70,17 +70,17 @@ std::string User::getNPResStr() const
 std::string User::getUserStr(int index) const
 {
 	std::stringstream ss;
-	ss << " --  Користувач  <<"<< login <<">> ";
+	ss << "    --  Користувач  <<"<< login <<">> ";
 	if (index) ss << "#" << index <<"  --" << std::endl;
 	else ss <<  "--" << std::endl;
-	ss << "  Пароль   : " << password << std::endl;
-	ss << "  Ім'я     : " << fi.name << std::endl;
-	ss << "  Прізвище : " << fi.surname << std::endl;
-	ss << "  Країна   : " << addres.country << std::endl;
-	ss << "  Місто    : " << addres.city << std::endl;
-	ss << "  Вулиця   : " << addres.street << std::endl;
-	ss << "  Ном.буд  : " << addres.homeNumber << std::endl;
-	ss << "  Телефон  : " << phoneNumber << std::endl;
+	ss << "        Пароль   : " << password << std::endl;
+	ss << "        Ім'я     : " << fi.name << std::endl;
+	ss << "        Прізвище : " << fi.surname << std::endl;
+	ss << "        Країна   : " << addres.country << std::endl;
+	ss << "        Місто    : " << addres.city << std::endl;
+	ss << "        Вулиця   : " << addres.street << std::endl;
+	ss << "        Ном.буд  : " << addres.homeNumber << std::endl;
+	ss << "        Телефон  : " << phoneNumber << std::endl;
 	return ss.str();
 }
 
@@ -97,9 +97,9 @@ std::string User::getSUserInfo(int index) const
 {
 	std::stringstream ss;
 	
-	if (index) ss << "     #" << index << " -- " ;
-	else ss << "       -- ";
-	ss <<  fi.name << " " << fi.surname << "  << \"" << login << "\" >> --" << std::endl;
+	if (index) ss << "     #" << index << "    " ;
+	else ss << "          ";
+	ss <<  fi.name << " " << fi.surname << "  << \"" << login << "\" >>" << std::endl;
 	return ss.str();
 }
 
@@ -109,15 +109,15 @@ std::string User::getStatStr() const
 	ss << getShortStatStr();
 	if (!tResults.empty())
 	{
-		ss << "\n ===================================" << std::endl;
-		ss << "    Розпочато тестів           : " << getResultsCount() << std::endl;
-		ss << "    Завершено тестів           : " << getPNPResultsCount(true) << std::endl;
-		ss << "    Відкладено тестів          : " << getPNPResultsCount(false) << std::endl;
-		ss << "    Загальна кількість питань  : " << getGetTotalQuesCount() << std::endl;
-		ss << "    Правильних відповідей      : " << getGetTotalRACount() << std::endl;
-		ss << "    Процент відповідей         : " << std::fixed << std::setprecision(2) << getAveragePercent() << std::endl;
-		ss << "    Середня оцінка             : " << getAverageRating() << std::endl;
-		ss << " =====================================\n" << std::endl;
+		ss << "\n       ===================================" << std::endl;
+		ss << "          Розпочато тестів           : " << getResultsCount() << std::endl;
+		ss << "          Завершено тестів           : " << getPNPResultsCount(true) << std::endl;
+		ss << "          Відкладено тестів          : " << getPNPResultsCount(false) << std::endl;
+		ss << "          Загальна кількість питань  : " << getGetTotalQuesCount() << std::endl;
+		ss << "          Правильних відповідей      : " << getGetTotalRACount() << std::endl;
+		ss << "          Процент відповідей         : " << std::fixed << std::setprecision(2) << getAveragePercent() << std::endl;
+		ss << "          Середня оцінка             : " << getAverageRating() << std::endl;
+		ss << "       =====================================\n" << std::endl;
 	}
 	ss << getResStr() << std::endl;
 	return ss.str();
@@ -132,7 +132,7 @@ std::string User::show_res(bool np) const
 		ss << "  Результати тестів відсутні....";
 		return ss.str();
 	}
-	if(!np) ss << "   -=  Результати тестів  =-" << std::endl;
+	if(!np) ss << "         -=  Результати тестів  =-" << std::endl;
 	else ss << "   -=  Не завершені тести  =-" << std::endl;
 	ss << std::endl;
 	for (const auto& val : tResults)

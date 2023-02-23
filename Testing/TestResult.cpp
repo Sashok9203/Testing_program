@@ -103,14 +103,14 @@ void TestResult::fromFStream(std::ifstream& ifs)
 std::string TestResult::getResStr(int index ) const
 {
 	std::stringstream ss;
-	ss << "    --  Результат тестування  " ;
+	ss << "            -- Результат тестування " ;
 	if (index) ss << index << " --" << std::endl;
-	else ss << " --" << std::endl;
-	ss << "        Назва           : " << name << std::endl;
-	ss << "        Категорія       : " << category << std::endl;
-	ss << "        Процент         : " << std::setprecision(2) << std::fixed << getRightAnswersPercent() << " %" << std::endl;
-	ss << "        Вірні відповіді : " << rightAnswersCount << " из " << testQuestionCount << std::endl;
-	ss << "        Оцінка          : ";
+	else ss << "--" << std::endl;
+	ss << "          Назва           : " << name << std::endl;
+	ss << "          Категорія       : " << category << std::endl;
+	ss << "          Процент         : " << std::setprecision(2) << std::fixed << getRightAnswersPercent() << " %" << std::endl;
+	ss << "          Вірні відповіді : " << rightAnswersCount << " из " << testQuestionCount << std::endl;
+	ss << "          Оцінка          : ";
 	if (!passed)
 	{
 		ss << "Не завершено" << std::endl;

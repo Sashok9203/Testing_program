@@ -26,10 +26,10 @@ void Test::addQuestion()
 {
 	Question* tmp ;
 	system("cls");
-	std::cout << " ---- Тип тесту ----" << std::endl;
-	std::cout << " [1] Тест з одною відповіддю " << std::endl;
-	std::cout << " [2] Тест з багатьма відповідями " << std::endl;
-	std::cout << " [3] Вийти " << std::endl;
+	std::cout << "        ---- Тип тесту ----" << std::endl;
+	std::cout << "     [1] Тест з одною відповіддю " << std::endl;
+	std::cout << "     [2] Тест з багатьма відповідями " << std::endl;
+	std::cout << "     [3] Вийти " << std::endl;
 	int select = getValue(1, 3);
 	switch (select)
 	{

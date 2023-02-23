@@ -64,7 +64,5 @@ public:
 	std::string  getShortStatStr(int index = 0) const;
 	std::string  getSUserInfo(int index = 0) const;
 	std::string  getStatStr() const;
-
-
 };
 

@@ -569,20 +569,19 @@ void Testing::testStat(Testing& instance)
 	ss << "       Закінчили тест      : " << passTestCount << std::endl;
 	ss << "       ------------------------------------" << std::endl << std::endl;
 	ss << "       ------------------------------------" << std::endl ;
-
 	for (const auto& val : tmp)
 	{
-		ss << /*"       " <<*/ val.first->getShortStatStr() << std::endl;
+		ss <<  val.first->getShortStatStr() << std::endl;
 		ss << "       " << val.second.getResStr() << std::endl;
 		ss << "       ------------------------------------" << std::endl << std::endl;
 	}
-
 	std::cout << ss.str();
 	saveStrToFile("\n Бажаєте зберегти статистику (Tab) ?", ss.str());
 }
 
 void Testing::catStat(Testing& instance)
 {
+
 }
 
 void Testing::totalTest(Testing& instance)
@@ -662,7 +661,7 @@ void Testing::load_tests()
 		if (getFSString(ifs, tmpCat)) addCategory(tmpCat);
 		else return;
 		
-		while (goToLabel(ifs, Test::test_lable))
+		while (goToNextLabel(ifs, Test::test_lable))
 		{
 			Test* test = nullptr;
 			try	{test = new Test(ifs);}
@@ -885,21 +884,22 @@ void Testing::showTestHierarchy(Testing& instance)
 	system("cls");
 	if (tests.empty())
 	{
-		std::cout << "   Тести відсутні" << std::endl;
+		std::cout << "        Тести відсутні" << std::endl;
 		system("pause>nul");
 		return ;
 	}
-	std::cout << "    -= Тести =-" << std::endl;
+	std::cout << "                      -= Тести =-\n" << std::endl;
 	for (auto const& val : tests)
 	{
-		std::cout << "  " << "*" << val.first << std::endl;
+		std::cout << "       " << "*" << val.first <<"*"<< std::endl;
 		if (val.second.empty())
 		{
-			std::cout << "     Тести відсутні..." << std::endl;
+			std::cout << "          Тести відсутні..." << std::endl;
 			continue;
 		}
 		for (auto const& q : val.second)
-			std::cout << "     " << q->getName() << std::endl;
+			std::cout << "             " << q->getName() << std::endl;
+		std::cout  << std::endl;
 	}
 	system("pause>nul");
 }

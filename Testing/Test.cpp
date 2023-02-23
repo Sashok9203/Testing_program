@@ -104,6 +104,7 @@ void Test::loadTest(const std::string& fileName)
 	if (isBlank(fileName)) throw test_invalid_argument("назва файлуу не може бути пустим рядком");
 	std::ifstream ifs(fileName);
 	if (!ifs) throw std::exception(("Не можливо відкрити файл  \"" + fileName + "\" ! ! !").c_str());
+	if (!goToLabel(ifs, Test::test_lable)) throw question_invalid_file_format("відсутня мітка \"" + std::string(Test::test_lable) + "\"...");
 	fromFStream(ifs);
 	
 }
@@ -130,7 +131,7 @@ void Test::toFStream(std::ofstream& ofs) const
 void Test::fromFStream(std::ifstream& ifs)
 {
 	std::string tmp;
-	if(!goToNextLabel(ifs, name_lable))throw question_invalid_file_format("відсутня мітка \"" + std::string(name_lable) + "\"...");;
+	if(!goToNextLabel(ifs, name_lable))throw question_invalid_file_format("відсутня мітка \"" + std::string(name_lable) + "\"...");
 	if (!getFSString(ifs, tmp)) throw test_invalid_argument(" відсутня назва тесту...");
 	name = tmp;
 	while (goToNextLabel(ifs, Question::question_start_label))

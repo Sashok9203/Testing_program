@@ -110,11 +110,12 @@ std::string TestResult::getResStr(int index ) const
 	ss << "  Категорія       : " << category << std::endl;
 	ss << "  Процент         : " << std::setprecision(2) << std::fixed << getRightAnswersPercent() << " %" << std::endl;
 	ss << "  Вірні відповіді : " << rightAnswersCount << " из " << testQuestionCount << std::endl;
+	ss << "  Оцінка          : ";
 	if (!passed)
 	{
-		ss << " Тест не завершено" << std::endl;
+		ss << "Не завершено" << std::endl;
 		return ss.str();
 	}
-	ss << "  Оцінка          : " << getRating() << std::endl;
+	else ss <<  getRating() << std::endl;
 	return ss.str();
 }

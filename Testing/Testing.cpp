@@ -275,6 +275,7 @@ void Testing::impCat(Testing& instance)
 		if (!tests.count(cName))
 		{
 			tests.insert({ cName ,{} });
+			categorys.push_back(cName);
 			std::cout << " Розділ \"" << cName << "\" додано...." << std::endl;
 		}
 		while (goToLabel(ifs, Test::test_lable))
@@ -519,7 +520,7 @@ void Testing::userStat(Testing& instance)
 	system("cls");
 	std::string ss;
 	User& user = *users.at(usersLogins[ind]);
-	ss == user.getStatStr();
+	ss = user.getStatStr();
 	std::cout << ss;
 	saveStrToFile("\n Бажаєте зберегти статистику ? Esc вихід.", ss);
 }

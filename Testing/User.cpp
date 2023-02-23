@@ -85,6 +85,19 @@ std::string User::getUserStr(int index) const
 	return ss.str();
 }
 
+std::string User::getShortStatStr(int index) const
+{
+	std::stringstream ss;
+	ss << "   -- \""<<login<<  "\" ";
+	if (index) ss << "#" << index << "  --" << std::endl;
+	else ss << "--" << std::endl;
+	ss << "     " << fi.name << " " << fi.surname << std::endl;
+	ss << "     " << addres.country << " " << addres.city << std::endl;
+	ss << "     " << addres.street << " " << addres.homeNumber << std::endl;
+	ss << "     " << phoneNumber << std::endl;
+	return ss.str();
+}
+
 std::string User::show_res(bool np) const
 {
 	std::stringstream ss;
@@ -105,6 +118,64 @@ std::string User::show_res(bool np) const
 		ss << std::endl;
 	}
 	return ss.str();
+}
+
+
+
+int User::getPNPResultsCount(bool pass) const
+{
+	int count = 0;
+	for (const auto& val : tResults)
+		if (val.isPassed() == pass) count++;
+	return count;
+}
+
+int User::getAverageRating() const
+{
+	double averRating = 0;
+	int count = 0;
+	for (const auto& val : tResults)
+		if (val.isPassed())
+		{
+			count++;
+			averRating += val.getRating();
+		}
+	return round(averRating/count);
+}
+
+double User::getAveragePercent() const
+{
+	double averPer = 0;
+	int count = 0;
+	for (const auto& val : tResults)
+		if (val.isPassed())
+		{
+			count++;
+			averPer += val.getRightAnswersPercent();
+		}
+	return averPer / count;
+}
+
+int User::getGetTotalQuesCount() const
+{
+	int count = 0;
+	for (const auto& val : tResults)
+		if (val.isPassed())
+		{
+			count+= val.getQuestionCount();
+		}
+	return count;
+}
+
+int User::getGetTotalRACount() const
+{
+	int count = 0;
+	for (const auto& val : tResults)
+		if (val.isPassed())
+		{
+			count += val.getRAnswerCount();
+		}
+	return count;
 }
 
 void User::setPassword(const std::string& pass)

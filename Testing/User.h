@@ -34,7 +34,14 @@ public:
 	const FI getFI() const { return fi; }
 	const Addres getAddres() const { return addres; }
 	const std::string& getPhone() const { return phoneNumber; }
-	const int  getResultsCount() const { return tResults.size(); }
+
+	int  getResultsCount() const { return tResults.size(); }
+	int  getPNPResultsCount( bool pass) const;
+	int  getAverageRating() const;
+	double  getAveragePercent() const;
+	int  getGetTotalQuesCount() const;
+	int  getGetTotalRACount() const;
+
 	void setPassword(const std::string& pass);
 	void setLogin(const std::string& log);
 	void setName(const std::string& name);
@@ -53,6 +60,7 @@ public:
 	std::string getResStr() const;
 	std::string getNPResStr() const;
 	std::string  getUserStr(int index = 0) const;
+	std::string  getShortStatStr(int index = 0) const;
 
 };
 

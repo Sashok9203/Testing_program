@@ -34,6 +34,8 @@ public:
 	void  setCategory(const std::string cat) { category = cat; }
 	const std::string& getCategory() const { return category; }
 	int   getNextQuestionIndex()const { return nextQuestionIndex; }
+	int   getQuestionCount() const { return testQuestionCount; }
+	int   getRAnswerCount() const { return rightAnswersCount; }
 	void  setPassed(bool passed) { this->passed = passed; }
 	void  setName(const std::string& name) { this->name = name; }
 	bool  isPassed() const { return passed; }

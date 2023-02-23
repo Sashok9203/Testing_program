@@ -481,7 +481,7 @@ void Testing::editUserData(User& instance)
 			break;
 		case 9:
 			std::cout << " Логін користувача : \"" << instance.getlogin() << "\"" << std::endl;
-			instance.setPassword(getWord(" Введіть новий логін : "));
+			instance.setLogin(getWord(" Введіть новий логін : "));
 			std::cout << " Логін змінений на  \"" << instance.getlogin() << "\"" << std::endl;
 			std::cout << " Зміна вступить в силу після перезавантаження программи..." << std::endl;
 			break;
@@ -514,6 +514,25 @@ void Testing::showUserTRes(User& instance)
 
 void Testing::userStat(Testing& instance)
 {
+	system("cls");
+	int ind = getUserIndex();
+	system("cls");
+	std::stringstream ss;
+	User& user = *users.at(usersLogins[ind]);
+	ss << user.getShortStatStr();
+	ss << "\n ===================================" << std::endl;
+	ss << "    Розпочато тестів           : " << user.getResultsCount() << std::endl;
+	ss << "    Завершено тестів           : " << user.getPNPResultsCount(true) << std::endl;
+	ss << "    Відкладено тестів          : " << user.getPNPResultsCount(false) << std::endl;
+	ss << "    Загальна кількість питань  : " << user.getGetTotalQuesCount() << std::endl;
+	ss << "    Правильних відповідей      : " << user.getGetTotalRACount() << std::endl;
+	ss << "    Процент відповідей         : " << std::fixed<<std::setprecision(2)<< user.getAveragePercent() << std::endl;
+	ss << "    Середня оцінка             : " << user.getAverageRating() << std::endl;
+	ss << " =====================================\n" << std::endl;
+	
+	ss << user.getResStr();
+	std::cout << ss.str();
+	saveStrToFile(" Бажаєте зберегти статистику ? Esc вихід.", ss.str());
 }
 
 void Testing::testStat(Testing& instance)
@@ -546,7 +565,7 @@ void Testing::adminStatProc(Testing& instance)
 {
 	Menu<Testing, Testing> adminStat(
 		" -=  Адміністратор  =-\n          --  Статистика  --", "Завершити",
-		{ {"По корисувачах",&Testing::userStat},
+		{ {"По користувачу",&Testing::userStat},
 		  {"По тестах",     &Testing::testStat},///
 		  {"По розділах",   &Testing::catStat},///
 		  {"Загальна",      &Testing::totalTest} },	instance, instance);///
@@ -890,7 +909,7 @@ bool Testing::showUsers() const
 	int ind = 1;
 	for (const auto& val : usersLogins)
 	{
-    	std::cout<<users.at(val)->getUserStr(ind);
+    	std::cout<<users.at(val)->getShortStatStr(ind);
 		std::cout << std::endl;
 		ind++;
 	}

@@ -127,7 +127,7 @@ void Testing::Registration(Testing& instance)
 				break;
 			case 5:
 				tmp = getString("         Вулиця  : ");
-				user->setCity(tmp);
+				user->setStreet(tmp);
 				break;
 			case 6:
 				std::cout << "         Номер будинку : ";
@@ -405,7 +405,8 @@ void Testing::delUsr(Testing& instance)
 
 void Testing::showUsr(Testing& instance)
 {
-	bool showUsers();
+	 showUsers();
+	 system("pause>nul");
 }
 
 void Testing::editUserData(User& instance)
@@ -495,7 +496,7 @@ void Testing::editUserData(User& instance)
 void Testing::delUserTRes(User& instance)
 {
 	system("cls");
-	instance.showResults(true);
+	instance.showResults();
 	std::cout << " Оберіть результат тестування : ";
 	instance.delResult(getValue(1, instance.getResultsCount())-1);
 	std::cout << " Результат тестування видалено ...";
@@ -698,7 +699,9 @@ void Testing::userProcess(const std::string& userLogin)
 	system("cls");
 	Menu<User, Testing> userMenu(" -= " + users[userLogin]->getFI().name + "  " + users[userLogin]->getFI().surname + " =-", "Вихід",
 								 { {"Пройти тест",    &Testing::userPassTest},
-								   {"Результати тестів",&Testing::userTestsRes} },
+								   {"Результати тестів",&Testing::userTestsRes},
+								   {"Незавершені тести",&Testing::userNPTestsRes},
+								  { "Змінити особисті дані",&Testing::editUserData } },
 								  *users[userLogin], *this);
     userMenu.getMenuItem();
 }
@@ -751,6 +754,12 @@ void Testing::userTestsRes(User& instance)
 {
 	showUserTRes(instance);
 	
+}
+
+void Testing::userNPTestsRes(User& instance)
+{
+	instance.showNPResults();
+	system("pause>nul");
 }
 
 void Testing::addCategory(const std::string& category)
@@ -845,7 +854,7 @@ bool Testing::showCategory() const
 	return true;
 }
 
-bool Testing::showUsers(bool index) const
+bool Testing::showUsers() const
 {
 	system("cls");
 	if (usersLogins.empty())
@@ -857,8 +866,9 @@ bool Testing::showUsers(bool index) const
 	int ind = 1;
 	for (const auto& val : usersLogins)
 	{
-		if (index) users.at(val)->show(ind);
-		else users.at(val)->show();
+
+		users.at(val)->show(ind);
+		std::cout << std::endl;
 		ind++;
 	}
 	return true;
@@ -892,7 +902,7 @@ int Testing::getTestIndex(const std::string& category) const
 
 int Testing::getUserIndex() const
 {
-	if (showUsers(true))
+	if (showUsers())
 	{
 		std::cout << " Оберіть користувача : ";
 		return getValue(1, usersLogins.size()) - 1;

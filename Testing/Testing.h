@@ -35,7 +35,7 @@ private:
 	void addCategory(const std::string& category);
 	bool showTests(const std::string& category) const;
 	bool showCategory() const;
-	bool showUsers(bool index = false) const;
+	bool showUsers() const;
 	
 	const std::string& chooseCategory() const;
 	const std::string& chooseTest(const std::string& category) const;
@@ -51,6 +51,7 @@ private:
 	/// Функції  меню userMenu
 	void userPassTest(User& instance);
 	void userTestsRes(User& instance);
+	void userNPTestsRes(User& instance);
 
 	/// Функції  меню createQuest
 	void createQuestion(Test& instance);

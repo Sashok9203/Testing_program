@@ -2,6 +2,11 @@
 
 
 
+TestResult::TestResult(std::ifstream& ifs):rightAnswersCount(0), points(0), nextQuestionIndex(0), passed(false)
+{
+	 fromFStream(ifs); 
+}
+
 TestResult::TestResult(const std::string& name, const std::string& category, int testQuestionCount)
 	:rightAnswersCount(0), points(0), nextQuestionIndex(0), passed(false)
 {
@@ -39,10 +44,10 @@ int TestResult::getRating() const
 	return (int)round((float)points/testQuestionCount);
 }
 
-float TestResult::getRightAnswersPercent() const
+double TestResult::getRightAnswersPercent() const
 {
-	float percent = (float)testQuestionCount * 12 / 100;
-	return (float)points / percent;
+	double percent = (double)testQuestionCount * 12 / 100;
+	return (double)points / percent;
 }
 
 void TestResult::fromFStream(std::ifstream& ifs)
@@ -102,7 +107,7 @@ void TestResult::showResult(int index ) const
 	else std::cout << " --" << std::endl;
 	std::cout << "  Назва           : " << name << std::endl;
 	std::cout << "  Категорія       : " << category << std::endl;
-	std::cout << "  Процент         : " << getRightAnswersPercent() << " %" << std::endl;
+	std::cout << "  Процент         : " << std::setprecision(2) << std::fixed << getRightAnswersPercent() << " %" << std::endl;
 	std::cout << "  Вірні відповіді : " << rightAnswersCount << " из " << testQuestionCount << std::endl;
 	if (!passed)
 	{

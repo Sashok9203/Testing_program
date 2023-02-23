@@ -52,30 +52,19 @@ void User::fromFStream(std::ifstream& ifs)
 	setLogin(idcrypt(tmp));
 	if (goToLabel(ifs, user_results))
 	{
-		while (goToLabel(ifs, TestResult::tres_lable))
+		while (goToNextLabel(ifs, TestResult::tres_lable))
 			addResult(TestResult(ifs));
 	}
 }
 
-void User::showResults(bool index) const
+void User::showResults() const
 {
-	int ind = 1;
-	system("cls");
-	if (tResults.empty())
-	{
-		std::cout << "  Результати тестів відсутні....";
-		system("pause>nul");
-	}
-	std::cout << "   -=  Результати тестів  =-" << std::endl;
-	for (const auto& val : tResults)
-	{
-		if (index)
-		{
-			val.showResult(ind);
-			++ind;
-		}
-		else val.showResult();
-	}
+	show_res( false);
+}
+
+void User::showNPResults() const
+{
+	show_res(true);
 }
 
 void User::show(int index) const
@@ -84,6 +73,7 @@ void User::show(int index) const
 	if (index) std::cout << "#" << index <<"  --" << std::endl;
 	else std::cout <<  "--" << std::endl;
 	std::cout << "  Логін    : " << login << std::endl;
+	std::cout << "  Пароль   : " << password << std::endl;
 	std::cout << "  Ім'я     : " << fi.name << std::endl;
 	std::cout << "  Прізвище : " << fi.surname << std::endl;
 	std::cout << "  Країна   : " << addres.country << std::endl;
@@ -92,6 +82,31 @@ void User::show(int index) const
 	std::cout << "  Ном.буд  : " << addres.homeNumber << std::endl;
 	std::cout << "  Телефон  : " << phoneNumber << std::endl;
 
+}
+
+void User::show_res(bool np) const
+{
+	int ind = 0;
+	system("cls");
+	if (tResults.empty())
+	{
+		std::cout << "  Результати тестів відсутні....";
+		return;
+	}
+	if(!np) std::cout << "   -=  Результати тестів  =-" << std::endl;
+	else std::cout << "   -=  Не закінчені тести  =-" << std::endl;
+	std::cout << std::endl;
+	for (const auto& val : tResults)
+	{
+		 ++ind;
+		if (np)
+		{
+			if (!val.isPassed())val.showResult(ind);
+		}
+		else val.showResult(ind);
+		std::cout << std::endl;
+	}
+	
 }
 
 void User::setPassword(const std::string& pass)

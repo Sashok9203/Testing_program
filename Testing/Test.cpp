@@ -6,12 +6,12 @@ void Test::addQuestion( Question* question)
 	 else  throw test_invalid_argument("не ніціаліований клас Question");
 }
 
-Test::Test(const std::string& fileName)
+Test::Test(const std::string& fileName):name("NoNameTest")
 {
 	loadTest(fileName);
 }
 
-Test::Test(std::ifstream& ifs)
+Test::Test(std::ifstream& ifs):name("NoNameTest")
 {
 	fromFStream(ifs);
 }

@@ -3,6 +3,7 @@
 #include "Test.h"
 #include <fstream>
 #include "TestingExceptions.h"
+#include <iomanip>
 class TestResult
 {
 private:
@@ -23,7 +24,7 @@ public:
 	
 	static constexpr char tres_lable[] = "<tres>";
 	TestResult():TestResult("NoName","NoCat", 1) {}
-	TestResult(std::ifstream& ifs) { fromFStream(ifs); }
+	TestResult(std::ifstream& ifs);
 	TestResult(const std::string& name, const std::string& category, int testQuestionCount);
 	const std::string& getName() const { return name; }
 	void addPoints(int points) { this->points += points; };
@@ -38,7 +39,7 @@ public:
 	bool isPassed() const { return passed; }
 	void toFStream(std::ofstream& ofs) const;
 	int getRating() const;
-	float getRightAnswersPercent() const;
+	double getRightAnswersPercent() const;
 	void fromFStream(std::ifstream& ifs);
 	void showResult(int index = 0) const;
 };

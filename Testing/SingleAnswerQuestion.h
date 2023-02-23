@@ -8,7 +8,7 @@ private:
 	void setRightAnswer(const int index);
 public:
 	SingleAnswerQuestion(): Question(SINGLE_ANSWER_Q), rightAnswer(1) {}
-	SingleAnswerQuestion(std::ifstream& ifs): Question(SINGLE_ANSWER_Q) { fromFStream(ifs); };
+	SingleAnswerQuestion(std::ifstream& ifs): Question(SINGLE_ANSWER_Q), rightAnswer(0) { fromFStream(ifs); };
 
 	void setAnswer() override;
 	void toFStream (std::ofstream& ofs) const override;

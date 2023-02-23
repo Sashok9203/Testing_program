@@ -507,6 +507,7 @@ void Testing::showUserTRes(User& instance)
 {
 	system("cls");
 	instance.showResults();
+	system("pause>nul");
 }
 
 
@@ -742,13 +743,14 @@ void Testing::userPassTest(User& instance)
 		tPtr = &tRes;
 	}
 	passTest(*test, *tPtr);
-	if (!exist) instance.addResult(tRes);
+	if (!exist) instance.addResult(*tPtr);
 	save();
 }
 
 void Testing::userTestsRes(User& instance)
 {
 	showUserTRes(instance);
+	
 }
 
 void Testing::addCategory(const std::string& category)

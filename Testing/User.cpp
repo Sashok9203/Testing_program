@@ -61,6 +61,11 @@ void User::showResults(bool index) const
 {
 	int ind = 1;
 	system("cls");
+	if (tResults.empty())
+	{
+		std::cout << "  Результати тестів відсутні....";
+		system("pause>nul");
+	}
 	std::cout << "   -=  Результати тестів  =-" << std::endl;
 	for (const auto& val : tResults)
 	{
@@ -71,7 +76,6 @@ void User::showResults(bool index) const
 		}
 		else val.showResult();
 	}
-	system("pause>nul");
 }
 
 void User::show(int index) const

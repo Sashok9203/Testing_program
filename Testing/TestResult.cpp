@@ -64,7 +64,7 @@ void TestResult::fromFStream(std::ifstream& ifs)
 		
 		int set = 1;
 		int temp;
-		while (ifs >> temp && set != 6)
+		while (set != 6 && ifs >> temp)
 		{
 			switch (set)
 			{

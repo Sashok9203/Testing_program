@@ -387,7 +387,8 @@ void Testing::editUsr(Testing& instance)
 		" -=  Адміністратор  =-\n          -*  Редагування користувача  *-", "Завершити",
 		 { {"Змінити дані",     &Testing::editUserData},
 		   {"Видалити рез.тестів",&Testing::delUserTRes},
-		   {"Показати рез.тестів",&Testing::showUserTRes} },
+		   {"Показати рез.тестів",&Testing::showUserTRes},
+		   {"Показати не завершені тести",&Testing::userNPTestsRes} },
 		*users.at(usersLogins[ind]), instance);
 	userEdit.getMenuItem();
 }
@@ -416,7 +417,7 @@ void Testing::editUserData(User& instance)
 	do
 	{
 		system("cls");
-		instance.show();
+		std::cout << instance.getUserStr();
 		std::cout << "  ------------------------\n" << std::endl;
 		std::cout << "    ------ Змінити ------" << std::endl;
 		std::cout << "    [1] Ім'я" << std::endl;
@@ -496,7 +497,7 @@ void Testing::editUserData(User& instance)
 void Testing::delUserTRes(User& instance)
 {
 	system("cls");
-	instance.showResults();
+	std::cout << instance.getResStr();
 	std::cout << " Оберіть результат тестування : ";
 	instance.delResult(getValue(1, instance.getResultsCount())-1);
 	std::cout << " Результат тестування видалено ...";
@@ -507,8 +508,24 @@ void Testing::delUserTRes(User& instance)
 void Testing::showUserTRes(User& instance)
 {
 	system("cls");
-	instance.showResults();
+	std::cout << instance.getResStr();
 	system("pause>nul");
+}
+
+void Testing::userStat(Testing& instance)
+{
+}
+
+void Testing::testStat(Testing& instance)
+{
+}
+
+void Testing::catStat(Testing& instance)
+{
+}
+
+void Testing::totalTest(Testing& instance)
+{
 }
 
 
@@ -527,7 +544,13 @@ void Testing::adminTestsEdit(Testing & instance)
 
 void Testing::adminStatProc(Testing& instance)
 {
-
+	Menu<Testing, Testing> adminStat(
+		" -=  Адміністратор  =-\n          --  Статистика  --", "Завершити",
+		{ {"По корисувачах",&Testing::userStat},
+		  {"По тестах",     &Testing::testStat},///
+		  {"По розділах",   &Testing::catStat},///
+		  {"Загальна",      &Testing::totalTest} },	instance, instance);///
+	adminStat.getMenuItem();
 
 }
 
@@ -758,7 +781,8 @@ void Testing::userTestsRes(User& instance)
 
 void Testing::userNPTestsRes(User& instance)
 {
-	instance.showNPResults();
+	system("cls");
+	std::cout << instance.getNPResStr();
 	system("pause>nul");
 }
 
@@ -866,8 +890,7 @@ bool Testing::showUsers() const
 	int ind = 1;
 	for (const auto& val : usersLogins)
 	{
-
-		users.at(val)->show(ind);
+    	std::cout<<users.at(val)->getUserStr(ind);
 		std::cout << std::endl;
 		ind++;
 	}
@@ -955,7 +978,7 @@ void Testing::passTest(Test& test, TestResult& tr)
 			{
 				system("cls");
 				std::cout << " Тест перервано...можете подовжити в зручний для вас час...." << std::endl;
-				tr.showResult();
+				std::cout << tr.getResStr();
 				system("pause>nul");
 				return;
 			}
@@ -969,7 +992,7 @@ void Testing::passTest(Test& test, TestResult& tr)
 	system("cls");
 	tr.setPassed(true);
 	std::cout << " Тест завершено ..." << std::endl;
-	tr.showResult();
+    std::cout << tr.getResStr();
 	system("pause>nul");
 }
 

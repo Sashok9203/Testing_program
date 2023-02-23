@@ -104,6 +104,12 @@ private:
 	 void editUserData(User& instance);
 	 void delUserTRes(User& instance);
 	 void showUserTRes(User& instance);
+
+	 //Функції меню adminStat
+	void  userStat(Testing& instance);
+    void  testStat(Testing& instance);
+    void  catStat(Testing& instance);
+    void  totalTest(Testing& instance);
 	
 public:
 	Testing();

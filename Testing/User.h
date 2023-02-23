@@ -23,7 +23,7 @@ private:
 	std::string password;
 	std::string login;
 	std::vector<TestResult> tResults;
-	void show_res(bool np ) const;
+	std::string show_res(bool np ) const;
 public:
 	User():fi({ "NoName","NoSurname" }), addres({"NoCountry","City","Street",0}),phoneNumber("NoNumber"),
 		password("NoPassword"),login("NoLogin") {}
@@ -50,9 +50,9 @@ public:
 	TestResult& getTestResult(int index);
 	void toFStream(std::ofstream& ofs) const ;
 	void fromFStream(std::ifstream& ifs);
-	void showResults() const;
-	void showNPResults() const;
-	void show(int index = 0) const;
+	std::string getResStr() const;
+	std::string getNPResStr() const;
+	std::string  getUserStr(int index = 0) const;
 
 };
 

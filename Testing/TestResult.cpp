@@ -100,19 +100,21 @@ void TestResult::fromFStream(std::ifstream& ifs)
 	}
 }
 
-void TestResult::showResult(int index ) const
+std::string TestResult::getResStr(int index ) const
 {
-    std::cout << " --  Результат тестування  " ;
-	if (index) std::cout << index << " --" << std::endl;
-	else std::cout << " --" << std::endl;
-	std::cout << "  Назва           : " << name << std::endl;
-	std::cout << "  Категорія       : " << category << std::endl;
-	std::cout << "  Процент         : " << std::setprecision(2) << std::fixed << getRightAnswersPercent() << " %" << std::endl;
-	std::cout << "  Вірні відповіді : " << rightAnswersCount << " из " << testQuestionCount << std::endl;
+	std::stringstream ss;
+	ss << " --  Результат тестування  " ;
+	if (index) ss << index << " --" << std::endl;
+	else ss << " --" << std::endl;
+	ss << "  Назва           : " << name << std::endl;
+	ss << "  Категорія       : " << category << std::endl;
+	ss << "  Процент         : " << std::setprecision(2) << std::fixed << getRightAnswersPercent() << " %" << std::endl;
+	ss << "  Вірні відповіді : " << rightAnswersCount << " из " << testQuestionCount << std::endl;
 	if (!passed)
 	{
-		std::cout << " Тест не завершено" << std::endl;
-		return;
+		ss << " Тест не завершено" << std::endl;
+		return ss.str();
 	}
-	std::cout << "  Оцінка          : " << getRating() << std::endl;
+	ss << "  Оцінка          : " << getRating() << std::endl;
+	return ss.str();
 }

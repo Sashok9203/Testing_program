@@ -57,56 +57,54 @@ void User::fromFStream(std::ifstream& ifs)
 	}
 }
 
-void User::showResults() const
+std::string User::getResStr() const
 {
-	show_res( false);
+	return  show_res( false);
 }
 
-void User::showNPResults() const
+std::string User::getNPResStr() const
 {
-	show_res(true);
+	return show_res(true);
 }
 
-void User::show(int index) const
+std::string User::getUserStr(int index) const
 {
-	std::cout << " --  Користувач  ";
-	if (index) std::cout << "#" << index <<"  --" << std::endl;
-	else std::cout <<  "--" << std::endl;
-	std::cout << "  Логін    : " << login << std::endl;
-	std::cout << "  Пароль   : " << password << std::endl;
-	std::cout << "  Ім'я     : " << fi.name << std::endl;
-	std::cout << "  Прізвище : " << fi.surname << std::endl;
-	std::cout << "  Країна   : " << addres.country << std::endl;
-	std::cout << "  Місто    : " << addres.city << std::endl;
-	std::cout << "  Вулиця   : " << addres.street << std::endl;
-	std::cout << "  Ном.буд  : " << addres.homeNumber << std::endl;
-	std::cout << "  Телефон  : " << phoneNumber << std::endl;
-
+	std::stringstream ss;
+	ss << " --  Користувач  ";
+	if (index) ss << "#" << index <<"  --" << std::endl;
+	else ss <<  "--" << std::endl;
+	ss << "  Логін    : " << login << std::endl;
+	ss << "  Пароль   : " << password << std::endl;
+	ss << "  Ім'я     : " << fi.name << std::endl;
+	ss << "  Прізвище : " << fi.surname << std::endl;
+	ss << "  Країна   : " << addres.country << std::endl;
+	ss << "  Місто    : " << addres.city << std::endl;
+	ss << "  Вулиця   : " << addres.street << std::endl;
+	ss << "  Ном.буд  : " << addres.homeNumber << std::endl;
+	ss << "  Телефон  : " << phoneNumber << std::endl;
+	return ss.str();
 }
 
-void User::show_res(bool np) const
+std::string User::show_res(bool np) const
 {
+	std::stringstream ss;
 	int ind = 0;
-	system("cls");
 	if (tResults.empty())
 	{
-		std::cout << "  Результати тестів відсутні....";
-		return;
+		ss << "  Результати тестів відсутні....";
+		return ss.str();
 	}
-	if(!np) std::cout << "   -=  Результати тестів  =-" << std::endl;
-	else std::cout << "   -=  Не закінчені тести  =-" << std::endl;
-	std::cout << std::endl;
+	if(!np) ss << "   -=  Результати тестів  =-" << std::endl;
+	else ss << "   -=  Не завершені тести  =-" << std::endl;
+	ss << std::endl;
 	for (const auto& val : tResults)
 	{
-		 ++ind;
-		if (np)
-		{
-			if (!val.isPassed())val.showResult(ind);
-		}
-		else val.showResult(ind);
-		std::cout << std::endl;
+		++ind;
+		if (np) { if (!val.isPassed()) ss << val.getResStr(ind); }
+		else ss << val.getResStr(ind);
+		ss << std::endl;
 	}
-	
+	return ss.str();
 }
 
 void User::setPassword(const std::string& pass)

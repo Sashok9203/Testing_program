@@ -534,58 +534,33 @@ void Testing::testStat(Testing& instance)
 {
 	system("cls");
 	std::stringstream ss;
-	int averRating = 0,  startTestCount = 0,passTestCount = 0;
-	double averRAnsverRepcent = 0;
 	std::string cat = chooseCategory();
 	int ind = getTestIndex(cat);
-	std::map<User*, TestResult> tmp;
-	system("cls");
-	std::string tName = tests.at(cat).at(ind)->getName();
-	for (const auto& val : users)
-	{
-		for (int i = 0; i < val.second->getResultsCount(); i++)
-		{
-			if (val.second->getTestResult(i).getName() == tName)
-			{
-				tmp.insert({ val.second ,val.second->getTestResult(i) });
-				startTestCount++;
-				if (val.second->getTestResult(i).isPassed())
-				{
-					averRating+= val.second->getTestResult(i).getRating();
-					averRAnsverRepcent += val.second->getTestResult(i).getRightAnswersPercent();
-					passTestCount++;
-				}
-			}
-		}
-	}
-	averRAnsverRepcent /= passTestCount;
-	averRating = round((float)averRating / (float)passTestCount);
-	ss << "       --------------  Тест  --------------" << std::endl;
-	ss << "       Назва               : "<< tName << std::endl;
-	ss << "       Розділ              : " << cat << std::endl;
-	ss << "       Середня оціка       : " << averRating << std::endl;
-	ss << "       Кількість пр.відп.  : " << std::fixed << std::setprecision(2) << averRAnsverRepcent << std::endl;
-	ss << "       Розочали  тест      : " << startTestCount << std::endl;
-	ss << "       Закінчили тест      : " << passTestCount << std::endl;
-	ss << "       ------------------------------------" << std::endl << std::endl;
-	ss << "       ------------------------------------" << std::endl ;
-	for (const auto& val : tmp)
-	{
-		ss <<  val.first->getShortStatStr() << std::endl;
-		ss << "       " << val.second.getResStr() << std::endl;
-		ss << "       ------------------------------------" << std::endl << std::endl;
-	}
+	ss << getTestStat(ind,cat);
 	std::cout << ss.str();
 	saveStrToFile("\n Бажаєте зберегти статистику (Tab) ?", ss.str());
 }
 
 void Testing::catStat(Testing& instance)
 {
-
+	system("cls");
+	std::stringstream ss;
+	std::string cat = chooseCategory();
+	ss << getCatStat(cat);
+	std::cout << ss.str();
+	saveStrToFile("\n Бажаєте зберегти статистику (Tab) ?", ss.str());
 }
 
 void Testing::totalTest(Testing& instance)
 {
+	system("cls");
+	std::stringstream ss;
+	ss << "    ############## Сумарна статистика ##############\n" << std::endl;
+	for (const auto& val : tests)
+		ss << getCatStat(val.first);
+	ss << "    ################################################\n" << std::endl;
+	std::cout << ss.str();
+	saveStrToFile("\n Бажаєте зберегти статистику (Tab) ?", ss.str());
 }
 
 
@@ -599,7 +574,6 @@ void Testing::adminTestsEdit(Testing & instance)
 		{"Показати ієрархію тестів",&Testing::showTestHierarchy} },
 		 instance,instance);///
 	testsEdit.getMenuItem();
-	
 }
 
 void Testing::adminStatProc(Testing& instance)
@@ -1054,6 +1028,66 @@ void Testing::passTest(Test& test, TestResult& tr)
 	std::cout << " Тест завершено ..." << std::endl;
     std::cout << tr.getResStr();
 	system("pause>nul");
+}
+
+std::string Testing::getTestStat(int ind, const std::string& cat) const
+{
+	if (!tests.count(cat) || ind < 0 || ind >= tests.at(cat).size()) throw std::exception("  Невірний аргумент функції");
+	std::stringstream ss;
+	int averRating = 0, startTestCount = 0, passTestCount = 0;
+	double averRAnsverRepcent = 0;
+	std::map<User*, TestResult> tmp;
+	system("cls");
+	std::string tName = tests.at(cat).at(ind)->getName();
+	for (const auto& val : users)
+	{
+		for (int i = 0; i < val.second->getResultsCount(); i++)
+		{
+			if (val.second->getTestResult(i).getName() == tName)
+			{
+				tmp.insert({ val.second ,val.second->getTestResult(i) });
+				startTestCount++;
+				if (val.second->getTestResult(i).isPassed())
+				{
+					averRating += val.second->getTestResult(i).getRating();
+					averRAnsverRepcent += val.second->getTestResult(i).getRightAnswersPercent();
+					passTestCount++;
+				}
+			}
+		}
+	}
+	averRAnsverRepcent = (averRAnsverRepcent != 0) ? averRAnsverRepcent /= passTestCount : 0;
+	averRating = (passTestCount == 0) ? 0 : round((float)averRating / (float)passTestCount);
+	ss << "       --------------  Тест  --------------" << std::endl;
+	ss << "       Назва               : " << tName << std::endl;
+	ss << "       Розділ              : " << cat << std::endl;
+	ss << "       Середня оціка       : " << averRating << std::endl;
+	ss << "       Кількість пр.відп.  : " << std::fixed << std::setprecision(2) << averRAnsverRepcent << " %" << std::endl;
+	ss << "       Розочали  тест      : " << startTestCount << std::endl;
+	ss << "       Завершили тест      : " << passTestCount << std::endl;
+	ss << "       ------------------------------------" << std::endl << std::endl;
+	ss << "       ------------------------------------" << std::endl;
+	for (const auto& val : tmp)
+	{
+		ss << val.first->getShortStatStr() << std::endl;
+		ss << "       " << val.second.getResStr() << std::endl;
+		ss << "       ------------------------------------" << std::endl << std::endl;
+	}
+	return ss.str();
+}
+
+std::string Testing::getCatStat(const std::string& cat) const
+{
+	if (!tests.count(cat)) throw std::exception("  Невірний аргумент функції");
+	std::stringstream ss;
+	ss << "    -=-=-=-=-=-=-= Розділ " << cat << " =-=-=-=-=-=-\n" << std::endl;
+	for (int i = 0; i < tests.at(cat).size(); i++)
+	{
+
+		ss << getTestStat(i, cat);
+		ss << "    *****************************************\n" << std::endl;
+	}
+	return ss.str();
 }
 
 const std::string& Testing::chooseCategory() const

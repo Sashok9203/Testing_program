@@ -88,8 +88,8 @@ std::string User::getShortStatStr(int index) const
 {
 	std::stringstream ss;
 	ss << getSUserInfo(index);
-	ss << "       " << addres.country << " " << addres.city << " " << addres.street << " " << addres.homeNumber << std::endl;
-	ss << "            " << phoneNumber << std::endl;
+	ss << "          " << addres.country << " " << addres.city << " " << addres.street << " " << addres.homeNumber << std::endl;
+	ss << "               " << phoneNumber << std::endl;
 	return ss.str();
 }
 
@@ -97,8 +97,8 @@ std::string User::getSUserInfo(int index) const
 {
 	std::stringstream ss;
 	
-	if (index) ss << "  #" << index << " -- " ;
-	else ss << "    -- ";
+	if (index) ss << "     #" << index << " -- " ;
+	else ss << "       -- ";
 	ss <<  fi.name << " " << fi.surname << "  << \"" << login << "\" >> --" << std::endl;
 	return ss.str();
 }

@@ -45,6 +45,8 @@ private:
 	int getCategoryIndex() const;
 	int getQuestionIndex(const Test& test);
 	void passTest(Test& test, TestResult& tr);
+	std::string getTestStat(int index, const std::string& cat) const;
+	std::string getCatStat(const std::string& cat) const;
 
 	void userProcess(const std::string& userLogin);
 	void adminProcess();

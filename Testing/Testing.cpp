@@ -134,7 +134,7 @@ void Testing::Registration(Testing& instance)
 				user->setHomeNumber(getValue(1,1000));
 				break;
 			case 7:
-				tmp = getWord("         Телефон в повному форматі  (+38) : ");
+				tmp = getWord("         Телефон в повному форматі  + і 12 цифр телефону : ");
 				user->setPhone(tmp);
 				break;
 			case 8:

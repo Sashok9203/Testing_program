@@ -70,10 +70,9 @@ std::string User::getNPResStr() const
 std::string User::getUserStr(int index) const
 {
 	std::stringstream ss;
-	ss << " --  Користувач  ";
+	ss << " --  Користувач  <<"<< login <<">> ";
 	if (index) ss << "#" << index <<"  --" << std::endl;
 	else ss <<  "--" << std::endl;
-	ss << "  Логін    : " << login << std::endl;
 	ss << "  Пароль   : " << password << std::endl;
 	ss << "  Ім'я     : " << fi.name << std::endl;
 	ss << "  Прізвище : " << fi.surname << std::endl;
@@ -88,13 +87,19 @@ std::string User::getUserStr(int index) const
 std::string User::getShortStatStr(int index) const
 {
 	std::stringstream ss;
-	ss << "   -- \""<<login<<  "\" ";
-	if (index) ss << "#" << index << "  --" << std::endl;
-	else ss << "--" << std::endl;
-	ss << "     " << fi.name << " " << fi.surname << std::endl;
-	ss << "     " << addres.country << " " << addres.city << std::endl;
-	ss << "     " << addres.street << " " << addres.homeNumber << std::endl;
-	ss << "     " << phoneNumber << std::endl;
+	ss << getSUserInfo(index);
+	ss << "       " << addres.country << " " << addres.city << " " << addres.street << " " << addres.homeNumber << std::endl;
+	ss << "            " << phoneNumber << std::endl;
+	return ss.str();
+}
+
+std::string User::getSUserInfo(int index) const
+{
+	std::stringstream ss;
+	
+	if (index) ss << "  #" << index << " -- " ;
+	else ss << "    -- ";
+	ss <<  fi.name << " " << fi.surname << "  << \"" << login << "\" >> --" << std::endl;
 	return ss.str();
 }
 

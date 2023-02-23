@@ -5,19 +5,21 @@ void saveStrToFile(const std::string title,const std::string str)
 {
 	std::cout << title << std::endl;
 	char ch = _getch();
-	if (ch == 27) return;
-	std::string path = getWord(" Веедіть ім'я файлу : ");
-	std::ofstream file(path);
-	if (!file)
+	if (ch ==9)
 	{
-		std::cout << " Не можливо створити файл \"" << path << "\"...";
+		std::string path = getWord(" Веедіть ім'я файлу : ");
+		std::ofstream file(path);
+		if (!file)
+		{
+			std::cout << " Не можливо створити файл \"" << path << "\"...";
+			system("pause>nul");
+			return;
+		}
+		file << str;
+		file.close();
+		std::cout << " Збережено в  файл \"" << path << "\"...";
 		system("pause>nul");
-		return;
 	}
-	file << str;
-	file.close();
-	std::cout << " Збережено в  файл \"" << path << "\"...";
-	system("pause>nul");
 }
 
 std::string idcrypt(const std::string& str)

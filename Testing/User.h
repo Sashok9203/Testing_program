@@ -57,11 +57,14 @@ public:
 	TestResult& getTestResult(int index);
 	void toFStream(std::ofstream& ofs) const ;
 	void fromFStream(std::ifstream& ifs);
+
 	std::string getResStr() const;
 	std::string getNPResStr() const;
 	std::string  getUserStr(int index = 0) const;
 	std::string  getShortStatStr(int index = 0) const;
+	std::string  getSUserInfo(int index = 0) const;
 	std::string  getStatStr() const;
+
 
 };
 

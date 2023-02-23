@@ -385,7 +385,7 @@ void Testing::editUsr(Testing& instance)
 	int ind;
 	if (ind = getUserIndex(), ind < 0) return;
 	Menu<User, Testing> userEdit(
-		" -=  Адміністратор  =-\n          -*  Редагування користувача  *-", "Завершити",
+		" -=  Адміністратор  =-\n          -= Редагування \"" + usersLogins[ind] + "\" =-", "Завершити",
 		 { {"Змінити дані",     &Testing::editUserData},
 		   {"Видалити рез.тестів",&Testing::delUserTRes},
 		   {"Показати рез.тестів",&Testing::showUserTRes},
@@ -407,8 +407,13 @@ void Testing::delUsr(Testing& instance)
 
 void Testing::showUsr(Testing& instance)
 {
-	 showUsers();
-	 system("pause>nul");
+	system("cls");
+	if (usersLogins.empty())
+		std::cout << " Немає зареєстрованих юзерів....";
+	else
+		for (const auto& val : usersLogins)
+			std::cout << users.at(val)->getUserStr() << std::endl;
+    system("pause>nul");
 }
 
 void Testing::editUserData(User& instance)
@@ -522,11 +527,58 @@ void Testing::userStat(Testing& instance)
 	User& user = *users.at(usersLogins[ind]);
 	ss = user.getStatStr();
 	std::cout << ss;
-	saveStrToFile("\n Бажаєте зберегти статистику ? Esc вихід.", ss);
+	saveStrToFile("\n Бажаєте зберегти статистику (Tab)?", ss);
 }
 
 void Testing::testStat(Testing& instance)
 {
+	system("cls");
+	std::stringstream ss;
+	int averRating = 0,  startTestCount = 0,passTestCount = 0;
+	double averRAnsverRepcent = 0;
+	std::string cat = chooseCategory();
+	int ind = getTestIndex(cat);
+	std::map<User*, TestResult> tmp;
+	system("cls");
+	std::string tName = tests.at(cat).at(ind)->getName();
+	for (const auto& val : users)
+	{
+		for (int i = 0; i < val.second->getResultsCount(); i++)
+		{
+			if (val.second->getTestResult(i).getName() == tName)
+			{
+				tmp.insert({ val.second ,val.second->getTestResult(i) });
+				startTestCount++;
+				if (val.second->getTestResult(i).isPassed())
+				{
+					averRating+= val.second->getTestResult(i).getRating();
+					averRAnsverRepcent += val.second->getTestResult(i).getRightAnswersPercent();
+					passTestCount++;
+				}
+			}
+		}
+	}
+	averRAnsverRepcent /= passTestCount;
+	averRating = round((float)averRating / (float)passTestCount);
+	ss << "       --------------  Тест  --------------" << std::endl;
+	ss << "       Назва               : "<< tName << std::endl;
+	ss << "       Розділ              : " << cat << std::endl;
+	ss << "       Середня оціка       : " << averRating << std::endl;
+	ss << "       Кількість пр.відп.  : " << std::fixed << std::setprecision(2) << averRAnsverRepcent << std::endl;
+	ss << "       Розочали  тест      : " << startTestCount << std::endl;
+	ss << "       Закінчили тест      : " << passTestCount << std::endl;
+	ss << "       ------------------------------------" << std::endl << std::endl;
+	ss << "       ------------------------------------" << std::endl ;
+
+	for (const auto& val : tmp)
+	{
+		ss << /*"       " <<*/ val.first->getShortStatStr() << std::endl;
+		ss << "       " << val.second.getResStr() << std::endl;
+		ss << "       ------------------------------------" << std::endl << std::endl;
+	}
+
+	std::cout << ss.str();
+	saveStrToFile("\n Бажаєте зберегти статистику (Tab) ?", ss.str());
 }
 
 void Testing::catStat(Testing& instance)
@@ -899,8 +951,7 @@ bool Testing::showUsers() const
 	int ind = 1;
 	for (const auto& val : usersLogins)
 	{
-    	std::cout<<users.at(val)->getShortStatStr(ind);
-		std::cout << std::endl;
+    	std::cout<<users.at(val)->getSUserInfo(ind);
 		ind++;
 	}
 	return true;

@@ -140,15 +140,15 @@
   <ItemGroup>
     <ClInclude Include="Exceptions.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="QExceptions.h" />
+    <ClInclude Include="TestExceptions.h" />
     <ClInclude Include="Testing.h" />
-    <ClInclude Include="TestingExceptions.h" />
     <ClInclude Include="MultyAnswerQuestion.h" />
     <ClInclude Include="mylib.h" />
-    <ClInclude Include="QExceptions.h" />
     <ClInclude Include="Question.h" />
     <ClInclude Include="SingleAnswerQuestion.h" />
     <ClInclude Include="Test.h" />
-    <ClInclude Include="TestExceptions.h" />
+    <ClInclude Include="TestingExceptions.h" />
     <ClInclude Include="TestResult.h" />
     <ClInclude Include="User.h" />
   </ItemGroup>

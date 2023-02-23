@@ -129,6 +129,7 @@ void Question::setQuestion()
 
 void Question:: toFStream(std::ofstream& ofs) const
 {
+	ofs << question_start_label << std::endl;
 	ofs << type_lables[type] << std::endl ;
 	ofs << question_lable << std::endl ;
 	ofs << question << std::endl;
@@ -140,7 +141,7 @@ void Question:: toFStream(std::ofstream& ofs) const
 void Question::fromFStream(std::ifstream& ifs)
 {
 	std::string tmp;
-	goToLable(ifs, question_lable);
+	if(!goToNextLabel(ifs, question_lable)) throw question_invalid_file_format("відсутня мітка \"" + std::string(question_lable) +"\"...");
 	try 
 	{
 		getFSText(ifs, tmp);
@@ -150,7 +151,7 @@ void Question::fromFStream(std::ifstream& ifs)
 	{
 		throw question_invalid_file_format(ex.what());
 	}
-	goToLable(ifs, answers_lable);
+	if(!goToNextLabel(ifs, answers_lable)) throw question_invalid_file_format("відсутня мітка \"" + std::string(answers_lable) + "\"...");;
 	try
 	{
 		while (getFSString(ifs,tmp))

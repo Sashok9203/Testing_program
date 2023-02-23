@@ -76,6 +76,7 @@ private:
 	//Функції меню testsEdit
 	 void adminTest(Testing& instance);
 	 void adminCat(Testing& instance);
+	 void showTest(Testing& instance);
 	 void showTestHierarchy(Testing& instance);
 
 	 //Функції меню adminTest
@@ -84,7 +85,7 @@ private:
 	 void editTest(Testing& instance);
 	 void delTest(Testing& instance);
 	 void expTest(Testing& instance);
-	 void showTest(Testing& instance);
+	 
 
 	 //Функції меню adminCat
 	 void addCat(Testing& instance);

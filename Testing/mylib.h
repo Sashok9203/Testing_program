@@ -16,7 +16,8 @@ struct LogPass
 
 std::string idcrypt(const std::string& str);
 bool isFileExist(const std::string& fileName);
-bool goToLable(std::ifstream& ifs,const std::string& lable);
+bool goToLabel(std::ifstream& ifs,const std::string& lable);
+bool goToNextLabel(std::ifstream& ifs, const std::string& lable);
 int getValue(int min, int max);
 std::string getText(const std::string& title,int blankCount = 0);
 std::string getWord(const std::string& title);

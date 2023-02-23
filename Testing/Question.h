@@ -32,7 +32,7 @@ protected:
 	void  delAnswer(const int index);
 	void  replaceAnswer(const std::string answer, const int index);
 public:
-	
+	static constexpr char question_start_label[] = "<q_start>";
 	Question(Type type = NO_ANSWER_Q): question("NoQuestion"),type(type) {}
 	void setQuestion();
 	const std::string& getQuestion() const { return question; }

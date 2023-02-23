@@ -54,7 +54,7 @@ LogPass getLogPas(bool hidePass)
 
 	return { log,pass };
 }
-bool goToLable(std::ifstream& ifs, const std::string& lable)
+bool goToLabel(std::ifstream& ifs, const std::string& lable)
 {
 	std::string tmp;
 	std::streampos pos = ifs.tellg();
@@ -66,6 +66,19 @@ bool goToLable(std::ifstream& ifs, const std::string& lable)
 			return false;
 		}
     return true;
+}
+
+bool goToNextLabel(std::ifstream& ifs, const std::string& lable)
+{
+	std::string tmp;
+	std::streampos pos = ifs.tellg();
+	if(!(ifs >> tmp)||tmp != lable)
+	{
+		ifs.clear();
+		ifs.seekg(pos);
+		return false;
+	}
+	return true;
 }
 
 int getValue(int min, int max)
@@ -106,7 +119,7 @@ bool getFWord(const std::string& fileName, const std::string& label, std::string
 {
 	std::ifstream ifs(fileName);
 	if (!ifs) throw std::exception(("Не можливо відкрити файл " + label).c_str());
-	if (goToLable(ifs, label) && getFSWord(ifs, str))
+	if (goToLabel(ifs, label) && getFSWord(ifs, str))
 	{
 		ifs.close();
 		return true;
@@ -190,9 +203,10 @@ bool getFSString(std::ifstream& ifs, std::string& str)
 {
 	std::streampos pos;
 	while (pos = ifs.tellg(), std::getline(ifs, str), isBlank(str) && ifs);
-	ifs.clear();
-	if (str.front() == '<')
+	
+	if (!ifs || str.front() == '<')
 	{
+		ifs.clear();
 		ifs.seekg(pos);
 		str.clear();
 		return false;

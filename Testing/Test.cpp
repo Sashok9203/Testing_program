@@ -57,21 +57,16 @@ void Test::delQuestion(int index)
 
 void Test::loadQuestion(std::ifstream& ifs)
 {
-    std:: string tmp;
-	while (std::getline(ifs, tmp),tmp[0] != '<')
-	{
-		if (!ifs) return;
-			
-	}
-	if (tmp == Question::type_lables[Question::MULTI_ANSWER_Q])
+    
+	if (goToNextLabel(ifs, Question::type_lables[Question::MULTI_ANSWER_Q]))
 	{
 		questions.push_back(new MultyAnswerQuestion(ifs));
 	}
-	else if (tmp == Question::type_lables[Question::SINGLE_ANSWER_Q])
+	else if (goToNextLabel(ifs, Question::type_lables[Question::SINGLE_ANSWER_Q]))
 	{
 		questions.push_back(new SingleAnswerQuestion(ifs));
 	}
-	else throw test_invalid_file_format("Не вірна мітка \"" + tmp + "\"");
+	//else throw test_invalid_file_format("Не вірна мітка \"" + tmp + "\"");
 }
 
  Question& Test::getQuestion(int index)
@@ -91,7 +86,7 @@ void Test::showAll() const
 	for (const auto& val : questions)
 	{
 		std::cout << "   Питання #" << ind << std::endl;
-		std::cout << val->getString();
+		std::cout << val->getString()<<std::endl;
 		++ind;
 	}
 }
@@ -125,6 +120,7 @@ void Test::saveTest(const std::string& fileName)
 
 void Test::toFStream(std::ofstream& ofs) const
 {
+	ofs << test_lable << std::endl;
 	ofs << name_lable << std::endl;
 	ofs << name << std::endl;
 	for (auto ptr : questions)
@@ -134,18 +130,10 @@ void Test::toFStream(std::ofstream& ofs) const
 void Test::fromFStream(std::ifstream& ifs)
 {
 	std::string tmp;
-	goToLable(ifs, name_lable);
-	try
-	{
-
-		if (!getFSString(ifs, tmp)) throw test_invalid_argument(" відсутня назва тесту...");
-		name = tmp;
-		while (ifs)
-			loadQuestion(ifs);
-		ifs.close();
-	}
-	catch (const question_invalid_argument& ex)
-	{
-		throw question_invalid_file_format(ex.what());
-	}
+	if(!goToNextLabel(ifs, name_lable))throw question_invalid_file_format("відсутня мітка \"" + std::string(name_lable) + "\"...");;
+	if (!getFSString(ifs, tmp)) throw test_invalid_argument(" відсутня назва тесту...");
+	name = tmp;
+	while (goToNextLabel(ifs, Question::question_start_label))
+	    loadQuestion(ifs);
+	//ifs.close();
 }

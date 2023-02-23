@@ -50,17 +50,17 @@ void TestResult::fromFStream(std::ifstream& ifs)
 	std::string tmp;
 	try
 	{
-		if (goToLable(ifs, tname_lable))
+		if (goToLabel(ifs, tname_lable))
 		{
 			if (!getFSString(ifs, tmp)) throw invalid_file_format("Назву тесту не знайдено");
 			name = tmp;
 		}
-		if (goToLable(ifs, tcat_lable))
+		if (goToLabel(ifs, tcat_lable))
 		{
 			if (!getFSString(ifs, tmp)) throw invalid_file_format("Категорію тесту не знайдено");
 			category = tmp;
 		}
-		if (!goToLable(ifs, tres_data_lable))	 throw invalid_file_format("Даних тесту не знайдено");
+		if (!goToLabel(ifs, tres_data_lable))	 throw invalid_file_format("Даних тесту не знайдено");
 		
 		int set = 1;
 		int temp;

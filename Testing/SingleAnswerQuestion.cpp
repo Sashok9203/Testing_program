@@ -20,7 +20,7 @@ void SingleAnswerQuestion::fromFStream(std::ifstream& ifs)
 	int temp;
 	std::string tmp;
 	Question::fromFStream(ifs);
-	goToLable(ifs, r_aswer_lable);
+	if(!goToNextLabel(ifs, r_aswer_lable)) throw question_invalid_file_format("відсутня мітка \"" + std::string(r_aswer_lable) + "\"...");
 	try 
 	{
 		if (!(ifs >> temp))

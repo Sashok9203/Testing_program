@@ -93,17 +93,14 @@ void MultyAnswerQuestion::fromFStream(std::ifstream& ifs)
 	int temp;
 	std::string tmp;
 	Question::fromFStream(ifs);
-	goToLable(ifs, r_aswers_lable);
+	if(!goToNextLabel(ifs, r_aswers_lable)) throw question_invalid_file_format("відсутня мітка \"" + std::string(r_aswers_lable) + "\"...");
 	try
 	{
-		while (ifs >> temp)
-		{
-			if (ifs.eof())
-				throw question_invalid_file_format("Мітку  \"" + std::string(r_aswers_lable) + "\" не знайдено");
-			if (!ifs)
-				throw question_invalid_argument(" після мітки  \"" + std::string(r_aswers_lable) + "\"");
-			 addRightAnswer(temp);
-		}
+		std::streampos pos;
+		while (pos = ifs.tellg(), ifs >> temp)
+			addRightAnswer(temp);
+		ifs.clear();
+		ifs.seekg(pos);
 		if(rightAnswers.empty()) throw question_invalid_argument("Відсутні варіанти правильних відповідей ...");
 	}
 	catch (const question_invalid_argument& ex)

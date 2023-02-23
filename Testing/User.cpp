@@ -50,9 +50,9 @@ void User::fromFStream(std::ifstream& ifs)
 	setPassword(idcrypt(tmp));
 	getFSString(ifs, tmp);
 	setLogin(idcrypt(tmp));
-	if (goToLable(ifs, user_results))
+	if (goToLabel(ifs, user_results))
 	{
-		while (goToLable(ifs, TestResult::tres_lable))
+		while (goToLabel(ifs, TestResult::tres_lable))
 			addResult(TestResult(ifs));
 	}
 }
@@ -141,8 +141,8 @@ void User::setHomeNumber(int num)
 void User::setPhone(const std::string& phone)
 {
 	if(phone.length() != 13)
-		throw std::invalid_argument("Не коректне значення номеру телефону користувача...\nНомер телефону не повинен скадатися  з 13 символів ....");
-	if(phone[0] != '+' && !isdigit(static_cast<unsigned char>(phone[0]))) 
+		throw std::invalid_argument("Не коректне значення номеру телефону користувача...\nНомер телефону  повинен скадатися  з 13 символів ....");
+	if(phone[0] != '+') 
 		throw std::invalid_argument("Не коректне значення номеру телефону користувача...\nНомер телефону може починатися з '+' або цифри....");
 	for (int i = 1; i < phone.length(); i++)
 	   if(!isdigit(static_cast<unsigned char>(phone[i])))

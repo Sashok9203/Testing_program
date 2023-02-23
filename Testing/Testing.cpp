@@ -165,7 +165,7 @@ void Testing::createTest(Testing& instance)
 	std::string category  = chooseCategory();
 	if (category.empty()) return;
 	Test* test  = new Test();
-	test->setName(getString(" Ведіть ім'я тесту"));
+	test->setName(getString(" Ведіть ім'я тесту : "));
 	Menu<Test,Testing> editTest(" -=  Адміністратор  =-\n         -* Створення тесту *-", "Завершити",
 		{ {"Додати питання",&Testing::createQuestion},
 		{"Редагувати питання",&Testing::editQuestion},
@@ -181,17 +181,19 @@ void Testing::impTest(Testing& instance)
 	const std::string& category = instance.chooseCategory();
 	if (category.empty()) return;
 	const std::string fileName = getString(" Введіть ім'я файлу : ");
-	try 
+	Test* test = nullptr;
+	try {test = new Test(fileName);}
+	catch (std::exception& ex)
 	{
-		instance.tests[category].push_back(new Test(fileName));
-		std::cout << " Тест " << fileName << " імпортовано...";
-		system("pause>nul");
-	}
-	catch (test_invalid_argument& ex)
-	{
+		delete test;
 		std::cout << ex.what();
+		std::cout <<" Файл \"" << fileName << "\" не імпортовано...";
 		system("pause>nul");
+		return;
 	}
+	instance.tests[category].push_back(test);
+	std::cout << " Файл \"" << fileName << "\" імпортовано...";
+	system("pause>nul");
 	save();
 }
 
@@ -262,7 +264,7 @@ void Testing::impCat(Testing& instance)
 		return;
 	}
 
-	if (goToLable(ifs, tests_file_category_label))
+	if (goToLabel(ifs, tests_file_category_label))
 	{
 		if (!getFSString(ifs, cName))
 		{
@@ -275,7 +277,7 @@ void Testing::impCat(Testing& instance)
 			tests.insert({ cName ,{} });
 			std::cout << " Розділ \"" << cName << "\" додано...." << std::endl;
 		}
-		while (goToLable(ifs, Test::name_lable))
+		while (goToLabel(ifs, Test::test_lable))
 		{
 			Test* tmp = new Test(ifs);
 			bool found = false;
@@ -352,6 +354,7 @@ void Testing::showTest(Testing& instance)
 	std::string cat = chooseCategory();
 	if (cat.empty()) return;
 	int index = getTestIndex(cat);
+	if (index < 0) return;
 	system("cls");
 	tests[cat].at(index)->showAll();
 	system("pause>nul");
@@ -513,6 +516,7 @@ void Testing::adminTestsEdit(Testing & instance)
 		" -=  Адміністратор  =-\n          -*  Редагування  *-","Завершити",
 		{ {"Редагування тестів",&Testing::adminTest},///
 		{"Редагувати розділів",&Testing::adminCat},///
+		{"Показати тести",&Testing::showTest},
 		{"Показати ієрархію тестів",&Testing::showTestHierarchy} },
 		 instance,instance);///
 	testsEdit.getMenuItem();
@@ -567,12 +571,23 @@ void Testing::load_tests()
 {
 	std::string tmpCat,tmp;
 	std::ifstream ifs(tests_file);
-	while (goToLable(ifs, tests_file_category_label))
+	while (goToLabel(ifs, tests_file_category_label))
 	{
 		if (getFSString(ifs, tmpCat)) addCategory(tmpCat);
 		else return;
-		while (goToLable(ifs, Test::name_lable))
-			tests[tmpCat].push_back(new Test(ifs));
+		
+		while (goToLabel(ifs, Test::test_lable))
+		{
+			Test* test = nullptr;
+			try	{test = new Test(ifs);}
+			catch (const std::exception& ex)
+			{
+				std::cout << ex.what()  << std::endl;;
+				system("pause>nul");
+				continue;
+			}
+			tests[tmpCat].push_back(test);
+		}
     }
 	ifs.close();
 }
@@ -581,9 +596,9 @@ void Testing::load_users()
 {
 	
 	std::ifstream ifs(admin_file);
-	if (goToLable(ifs, admin_users_label))
+	if (goToLabel(ifs, admin_users_label))
 	{
-		while (goToLable(ifs, admin_user_label))
+		while (goToLabel(ifs, admin_user_label))
 		{
 			User* user = nullptr;
 			try	{ user = new User(ifs);	}
@@ -644,12 +659,21 @@ Testing::Testing()
 	}
 	if (isFileExist(admin_file))
 	{
-		if (!getFWord(admin_file, admin_pass_label, tmp)) throw std::exception("Помилка завантаження пароля адміністратора");
-		adminPassword = idcrypt(tmp);
-		if (!getFWord(admin_file, admin_log_label, tmp)) throw std::exception("Помилка завантаження логіна адміністратора");
-		adminLogin = idcrypt(tmp);
-		load_tests();
-		load_users();
+		try
+		{
+			if (!getFWord(admin_file, admin_pass_label, tmp)) throw std::exception("Помилка завантаження пароля адміністратора");
+			adminPassword = idcrypt(tmp);
+			if (!getFWord(admin_file, admin_log_label, tmp)) throw std::exception("Помилка завантаження логіна адміністратора");
+			adminLogin = idcrypt(tmp);
+			load_tests();
+			load_users();
+		}
+		catch (const std::exception& ex)
+		{
+			std::cout << ex.what();
+			system("pause>nul");
+		}
+		
 	}
 	else
 	{
@@ -659,7 +683,7 @@ Testing::Testing()
 
 Testing::~Testing()
 {
-	save();
+	//save();
 	for (auto& val : tests)
 		for (auto& v : val.second)
 			delete v;
@@ -744,7 +768,6 @@ void Testing::adminTest(Testing& instance)
 		{ {"Cтворити",&Testing::createTest},///
 		  {"Редагувати",&Testing::editTest},///
 		  {"Видалити",&Testing::delTest},///
-		  {"Показати",&Testing::showTest},
 		  {"Імпортувати",&Testing::impTest},////
 		  {"Експортувати",&Testing::expTest}, }, instance, instance);///
 	testsEdit.getMenuItem();
@@ -787,7 +810,7 @@ void Testing::showTestHierarchy(Testing& instance)
 
 bool Testing::showTests(const std::string& category) const
 {
-	if (!tests.count(category)) throw std::invalid_argument(" Не існує такої категорії");
+    if (!tests.count(category)) throw std::invalid_argument(" Не існує такої категорії");
 	int ind = 1;
 	if (tests.at(category).empty())
 	{
@@ -850,11 +873,11 @@ int Testing::getTestIndex(const std::string& category) const
 {
 	system("cls");
 	int sel;
-	std::cout << " Оберіть test " << std::endl;
+	std::cout << " Оберіть тест " << std::endl;
 	try
 	{
 		if (showTests(category))
-			sel = getValue(1, categorys.size());
+			sel = getValue(1, tests.at(category).size());
 		else return -1;
 	}
 	catch (std::invalid_argument& ex)

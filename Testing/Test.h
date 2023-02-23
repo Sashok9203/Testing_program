@@ -19,6 +19,7 @@ private:
 public:
 	static constexpr char exp[] = ".test";
 	static constexpr char name_lable[] = "<test_name>";
+	static constexpr char test_lable[] = "<test>";
 	Test():name("NoNameTest") {};
 	Test(const std::string& fileName);
 	Test(std::ifstream& ifs);

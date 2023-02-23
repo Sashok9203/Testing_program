@@ -61,6 +61,7 @@ public:
 	std::string getNPResStr() const;
 	std::string  getUserStr(int index = 0) const;
 	std::string  getShortStatStr(int index = 0) const;
+	std::string  getStatStr() const;
 
 };
 

@@ -98,6 +98,22 @@ std::string User::getShortStatStr(int index) const
 	return ss.str();
 }
 
+std::string User::getStatStr() const
+{
+	std::stringstream ss;
+	ss << getShortStatStr();
+	ss << "\n ===================================" << std::endl;
+	ss << "    Розпочато тестів           : " << getResultsCount() << std::endl;
+	ss << "    Завершено тестів           : " << getPNPResultsCount(true) << std::endl;
+	ss << "    Відкладено тестів          : " << getPNPResultsCount(false) << std::endl;
+	ss << "    Загальна кількість питань  : " << getGetTotalQuesCount() << std::endl;
+	ss << "    Правильних відповідей      : " << getGetTotalRACount() << std::endl;
+	ss << "    Процент відповідей         : " << std::fixed << std::setprecision(2) << getAveragePercent() << std::endl;
+	ss << "    Середня оцінка             : " << getAverageRating() << std::endl;
+	ss << " =====================================\n" << std::endl;
+	return ss.str();
+}
+
 std::string User::show_res(bool np) const
 {
 	std::stringstream ss;

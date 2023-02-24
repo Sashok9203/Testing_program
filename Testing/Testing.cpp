@@ -13,29 +13,33 @@ void Testing::addQuestion(Test& instance)
 void Testing::editQuestion(Test& instance)
 {
 	int ind = getQuestionIndex(instance);
+	int select;
 	Question& quest = instance.getQuestion(ind);
-	system("cls");
-	std::cout << quest.getString();
-	std::cout << "         ------ Змінити ------" << std::endl;
-	std::cout << "       [1] Питання" << std::endl;
-	std::cout << "       [2] Варіанти відповідей" << std::endl;
-	std::cout << "       [3] Правильні відповіді" << std::endl;
-	std::cout << "       [4] Завершити" << std::endl;
-	int select = getValue(1, 4);
-	switch (select)
+	do
 	{
-	case 1:
-		quest.setQuestion();
-		break;
-	case 2:
-		quest.setAnswerVariant();
-		break;
-	case 3:
-		quest.setAnswer();
-		break;
-	default:
-		return;
-	}
+		system("cls");
+		std::cout << quest.getString();
+		std::cout << "\n         ------ Змінити ------" << std::endl;
+		std::cout << "       [1] Питання" << std::endl;
+		std::cout << "       [2] Варіанти відповідей" << std::endl;
+		std::cout << "       [3] Правильні відповіді" << std::endl;
+		std::cout << "       [4] Завершити" << std::endl;
+		select = getValue(1, 4);
+		switch (select)
+		{
+		case 1:
+			quest.setQuestion();
+			break;
+		case 2:
+			quest.setAnswerVariant();
+			break;
+		case 3:
+			quest.setAnswer();
+			break;
+		default:
+			return;
+		}
+	} while (select != 4);
 	save();
 }
 
@@ -58,8 +62,14 @@ void Testing::loadQuestion(Test& instance)
 {
 	std::string tmp = getWord("Введіть імя файлу :");
 	std::ifstream ifs(tmp);
-	if (!ifs) std::cout << " Не можливо відкрити файл " << tmp;
+	if (!ifs)
+	{
+		std::cout << " Не можливо відкрити файл " << tmp;
+		ifs.close();
+		return;
+	}
 	instance.loadQuestion(ifs);
+	ifs.close();
 	save();
 	std::cout << " Питання успішно завантажене з файлу \"" << tmp << "\"...";
 	system("pause>nul");
@@ -167,7 +177,7 @@ void Testing::createTest(Testing& instance)
 	Test* test  = new Test();
 	test->setName(getString(" Ведіть ім'я тесту : "));
 	Menu<Test,Testing> editTest(" -=  Адміністратор  =-\n         -* Створення тесту *-", "Завершити",
-		{ {"Додати питання",&Testing::createQuestion},
+		{ {"Додати питання",&Testing::addQuestion},
 		{"Редагувати питання",&Testing::editQuestion},
 		{"Видалити питання",&Testing::delQuestion},
 		{"Зберегти питання",&Testing::saveQuestion} }, *test,*this);
@@ -205,10 +215,9 @@ void Testing::editTest(Testing& instance)
 	if (nameInd<0) return;
 	Test* test = tests[category].at(nameInd);
 	Menu<Test, Testing> editTest(" -=  Адміністратор  =-\n         -* Редактування тесту *-", "Завершити",
-		{ {"Додати питання",&Testing::createQuestion},
+		{ {"Додати питання",&Testing::addQuestion},
 		{"Редагувати питання",&Testing::editQuestion},
 		{"Видалити питання",&Testing::delQuestion},
-		{"Завантажити питання",&Testing::loadQuestion},
 		{"Зберегти питання",&Testing::saveQuestion}}, *test, instance);
 	editTest.getMenuItem();
 }
@@ -286,6 +295,7 @@ void Testing::impCat(Testing& instance)
 	}
 	else std::cout << " Файл \"" << cfName << "\" не містить каталогу для завантаження";
 	system("pause>nul");
+	ifs.close();
 	save();
 }
 
@@ -934,7 +944,7 @@ bool Testing::addTest(Test* test, const std::string& cat)
 	{
 		tests.at(cat).push_back(test);
 		std::cout << " Тест \"" << test->getName() << "\" додано...." << std::endl;
-		return false;
+		return true;
 	}
 	std::cout << " Тест \"" << test->getName() << "\" вже існує...." << std::endl;
 	return false;

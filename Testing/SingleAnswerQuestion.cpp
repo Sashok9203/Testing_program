@@ -35,6 +35,7 @@ void SingleAnswerQuestion::fromFStream(std::ifstream& ifs)
 
 void SingleAnswerQuestion::setAnswer()
 {
+	system("cls");
 	Question::setAnswer();
 	std::cout << getString();
 	std::cout << " ¬вед≥ть правильний вар≥ант в≥дпов≥д≥ :";

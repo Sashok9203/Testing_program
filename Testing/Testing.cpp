@@ -503,7 +503,7 @@ void Testing::delUserTRes(User& instance)
 	std::cout << instance.getResStr();
 	std::cout << " Оберіть результат тестування (0 повернутися): ";
 	int  tmp = getValue(0, instance.getResultsCount()) - 1;
-	if (tmp == 0) return;
+	if (tmp == -1) return;
 	instance.delResult(tmp);
 	std::cout << " Результат тестування видалено ...";
 	system("pause>nul");

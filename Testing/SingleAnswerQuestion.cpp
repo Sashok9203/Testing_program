@@ -47,7 +47,7 @@ int SingleAnswerQuestion::answerToQestion() const
 {
 	Question::answerToQestion();
 	std::cout << getString();
-	std::cout << "Ваша відповідь :";
+	std::cout << "     Ваша відповідь :";
 	if (getValue(1, answersVariants.size()) == rightAnswer) return  questionPoints;
 	else return 1;
 }

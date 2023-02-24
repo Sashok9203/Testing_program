@@ -66,7 +66,7 @@ void Test::loadQuestion(std::ifstream& ifs)
 	{
 		questions.push_back(new SingleAnswerQuestion(ifs));
 	}
-	else throw test_invalid_file_format("Не вірна мітка \"" + tmp + "\"");
+	else throw test_invalid_file_format("Не вірна мітка \"Question::type_lables\"");
 }
 
  Question& Test::getQuestion(int index)

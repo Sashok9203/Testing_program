@@ -90,19 +90,20 @@ std::string Question::answerVariantToStr() const
 {
 	std::stringstream ss;
 	int index = 1;
-	ss << "\nВаріанти відповіді:" << std::endl;
+	ss << "\n     Варіанти відповіді:\n" << std::endl;
 	for (const std::string& val : answersVariants)
 	{
-		ss << "      #" << index << "  " << val << std::endl;
+		ss << "           #" << index << "  " << val << std::endl;
 		++index;
 	}
+	ss << std::endl;
 	return ss.str();
 }
 
 std::string Question::getString() const
 {
 	std::stringstream ss;
-	ss << question << " ";
+	ss << question <<std::endl;
 	ss << answerVariantToStr();
 	return ss.str();
 }

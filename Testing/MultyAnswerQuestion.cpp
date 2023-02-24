@@ -53,19 +53,19 @@ int MultyAnswerQuestion::answerToQestion() const
 	std::cout << getString();
 	do
 	{
-		std::cout << " ¬вед≥ть  в≥дпов≥дь :";
+		std::cout << "      ¬вед≥ть  в≥дпов≥дь (не одна):";
 		int tmp = getValue(1, answersVariants.size());
 		if (!isVectorExist(vtmp, tmp))
 		{
 			vtmp.push_back(tmp);
-			std::cout << " B≥дпов≥дь додано..." << std::endl;
+			std::cout << "      B≥дпов≥дь додано..." << std::endl;
 
 			if (answersVariants.size() == vtmp.size())
 			{
 				system("pause>nul");
 				break;
 			}
-			std::cout << " Esc завершити ...  " << std::endl;
+			std::cout << "      Esc завершити ...  " << std::endl;
 		}
 		
 

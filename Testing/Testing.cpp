@@ -1024,16 +1024,16 @@ void Testing::passTest(Test& test, TestResult& tr)
 	{
 		system("cls");
 		const Question* q = &test.getQuestion(i);
-		std::cout << "          -= "<<test.getName() << " =-"<< std::endl;
-		std::cout << "                 Питання " << i + 1 << "/" << test.getQuestCount() << std::endl << std::endl;
+		std::cout << "          -= "<<test.getName() << " =-\n"<< std::endl;
+		std::cout << "                      Питання " << i + 1 << "/" << test.getQuestCount() << std::endl << std::endl;
 		int points = q->answerToQestion();
 		if (points == 12) tr.addRightAnswer();
 		tr.addPoints(points);
 		tr.setNextQuestionIndex(i+1);
-		std::cout << " Відповідь прийнята..." << std::endl;
+		std::cout << "      Відповідь прийнята..." << std::endl;
 		if (i != test.getQuestCount() - 1)
 		{
-			std::cout << " Для продовження натисніть будь яку клавішу...Esc для завершення." << std::endl;
+			std::cout << "      Для продовження натисніть будь яку клавішу...Esc для завершення." << std::endl;
 			if (_getch() == 27)
 			{
 				system("cls");

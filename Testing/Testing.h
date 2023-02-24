@@ -37,6 +37,7 @@ private:
 	bool showTests(const std::string& category) const;
 	bool showCategory() const;
 	bool showUsers() const;
+	bool addTest(Test* test, const std::string& cat);
 	
 	const std::string& chooseCategory() const;
 	const std::string& chooseTest(const std::string& category) const;

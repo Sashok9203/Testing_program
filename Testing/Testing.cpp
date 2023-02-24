@@ -191,7 +191,7 @@ void Testing::impTest(Testing& instance)
 		system("pause>nul");
 		return;
 	}
-	instance.tests[category].push_back(test);
+	if(!addTest(test, category)) delete test;
 	std::cout << " Файл \"" << fileName << "\" імпортовано...";
 	system("pause>nul");
 	save();
@@ -281,25 +281,7 @@ void Testing::impCat(Testing& instance)
 		while (goToLabel(ifs, Test::test_lable))
 		{
 			Test* tmp = new Test(ifs);
-			bool found = false;
-			for (const auto& val : tests[cName])
-			{
-				if (val->getName() == tmp->getName())
-				{
-					found = true;
-					break;
-				}
-			}
-			if (!found)
-			{
-				tests[cName].push_back(tmp);
-				std::cout << " Тест \"" << tmp->getName() << "\" додано...." << std::endl;
-			}
-			else
-			{
-				std::cout << " Тест \"" << tmp->getName() << "\" вже існує...." << std::endl;
-				delete tmp;
-			}
+			if (!addTest(tmp, cName)) delete tmp;
 		}
 	}
 	else std::cout << " Файл \"" << cfName << "\" не містить каталогу для завантаження";
@@ -504,8 +486,10 @@ void Testing::delUserTRes(User& instance)
 {
 	system("cls");
 	std::cout << instance.getResStr();
-	std::cout << " Оберіть результат тестування : ";
-	instance.delResult(getValue(1, instance.getResultsCount())-1);
+	std::cout << " Оберіть результат тестування (0 повернутися): ";
+	int  tmp = getValue(0, instance.getResultsCount()) - 1;
+	if (tmp == 0) return;
+	instance.delResult(tmp);
 	std::cout << " Результат тестування видалено ...";
 	system("pause>nul");
 	save();
@@ -522,6 +506,7 @@ void Testing::userStat(Testing& instance)
 {
 	system("cls");
 	int ind = getUserIndex();
+	if (ind < 0) return;
 	system("cls");
 	std::string ss;
 	User& user = *users.at(usersLogins[ind]);
@@ -535,7 +520,9 @@ void Testing::testStat(Testing& instance)
 	system("cls");
 	std::stringstream ss;
 	std::string cat = chooseCategory();
+	if (cat.empty()) return;
 	int ind = getTestIndex(cat);
+	if (ind < 0) return;
 	ss << getTestStat(ind,cat);
 	std::cout << ss.str();
 	saveStrToFile("\n Бажаєте зберегти статистику (Tab) ?", ss.str());
@@ -546,6 +533,7 @@ void Testing::catStat(Testing& instance)
 	system("cls");
 	std::stringstream ss;
 	std::string cat = chooseCategory();
+	if (cat.empty()) return;
 	ss << getCatStat(cat);
 	std::cout << ss.str();
 	saveStrToFile("\n Бажаєте зберегти статистику (Tab) ?", ss.str());
@@ -928,6 +916,28 @@ bool Testing::showUsers() const
 		ind++;
 	}
 	return true;
+}
+
+bool Testing::addTest(Test* test, const std::string& cat)
+{
+	bool found = false;
+	if (!tests.count(cat)) return false;
+	for (const auto& val : tests[cat])
+	{
+		if (val->getName() == test->getName())
+		{
+			found = true;
+			break;
+		}
+	}
+	if (!found)
+	{
+		tests.at(cat).push_back(test);
+		std::cout << " Тест \"" << test->getName() << "\" додано...." << std::endl;
+		return false;
+	}
+	std::cout << " Тест \"" << test->getName() << "\" вже існує...." << std::endl;
+	return false;
 }
 
 const std::string& Testing::chooseTest(const std::string& category) const

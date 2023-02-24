@@ -66,7 +66,7 @@ void Test::loadQuestion(std::ifstream& ifs)
 	{
 		questions.push_back(new SingleAnswerQuestion(ifs));
 	}
-	//else throw test_invalid_file_format("Не вірна мітка \"" + tmp + "\"");
+	else throw test_invalid_file_format("Не вірна мітка \"" + tmp + "\"");
 }
 
  Question& Test::getQuestion(int index)
@@ -136,5 +136,5 @@ void Test::fromFStream(std::ifstream& ifs)
 	name = tmp;
 	while (goToNextLabel(ifs, Question::question_start_label))
 	    loadQuestion(ifs);
-	//ifs.close();
+	
 }

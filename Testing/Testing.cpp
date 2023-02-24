@@ -62,13 +62,18 @@ void Testing::loadQuestion(Test& instance)
 {
 	std::string tmp = getWord("Введіть імя файлу :");
 	std::ifstream ifs(tmp);
-	if (!ifs)
+	try
 	{
-		std::cout << " Не можливо відкрити файл " << tmp;
+		if (!ifs || !goToNextLabel(ifs, Question::question_start_label)) throw  std::exception();
+		instance.loadQuestion(ifs);
+	}
+	catch (const std::exception&)
+	{
+		std::cout << " Не можливо завантажити файл " << tmp;
+		system("pause>nul");
 		ifs.close();
 		return;
 	}
-	instance.loadQuestion(ifs);
 	ifs.close();
 	save();
 	std::cout << " Питання успішно завантажене з файлу \"" << tmp << "\"...";
@@ -639,11 +644,12 @@ void Testing::load_tests()
 			try	{test = new Test(ifs);}
 			catch (const std::exception& ex)
 			{
-				std::cout << ex.what()  << std::endl;;
+				std::cout << ex.what() << std::endl;;
 				system("pause>nul");
+				delete test;
 				continue;
 			}
-			tests[tmpCat].push_back(test);
+			tests.at(tmpCat).push_back(test);
 		}
     }
 	ifs.close();
@@ -734,6 +740,7 @@ Testing::Testing()
 	}
 	else
 	{
+		load_tests();
 		adminLPEdit(*this);
 	}
 }

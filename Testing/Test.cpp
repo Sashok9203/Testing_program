@@ -106,6 +106,7 @@ void Test::loadTest(const std::string& fileName)
 	if (!ifs) throw std::exception(("Не можливо відкрити файл  \"" + fileName + "\" ! ! !").c_str());
 	if (!goToLabel(ifs, Test::test_lable)) throw question_invalid_file_format("відсутня мітка \"" + std::string(Test::test_lable) + "\"...");
 	fromFStream(ifs);
+	ifs.close();
 	
 }
 

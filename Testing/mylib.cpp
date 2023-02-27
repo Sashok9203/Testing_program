@@ -152,7 +152,7 @@ bool getFWord(const std::string& fileName, const std::string& label, std::string
 bool getFSWord(std::ifstream& ifs, std::string& str)
 {
 	
-	std::streampos pos; 
+	std::streampos pos;
 	while (pos = ifs.tellg(), (ifs >> str) && isBlank(str));
 	ifs.clear();
 	if (str.front() == '<' || !ifs)
@@ -237,7 +237,7 @@ bool getFSString(std::ifstream& ifs, std::string& str)
 bool getFSText(std::ifstream& ifs, std::string& str)
 {
 	std::streampos pos;
-	std::ostringstream ss;
+	std::stringstream ss;
 	while (pos = ifs.tellg(), std::getline(ifs, str), ifs)
 	{
 		if (!isBlank(str))
@@ -265,7 +265,7 @@ bool isBlank(const std::string& str)
 {
 	if (!str.empty())
 		for (char ch : str)
-			if (!isblank(static_cast<unsigned char>(ch))) return false;
+			if (!isspace(static_cast<unsigned char>(ch))) return false;
 	return true;
 }
 

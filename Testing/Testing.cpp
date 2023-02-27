@@ -957,10 +957,10 @@ bool Testing::addTest(Test* test, const std::string& cat)
 	return false;
 }
 
-const std::string& Testing::chooseTest(const std::string& category) const
+std::string Testing::chooseTest(const std::string& category) const
 {
 	int sel = getTestIndex(category);
-	if (sel>=0) return tests.at(category).at(sel)->getName();
+	if(sel >= 0)return tests.at(category).at(sel)->getName();
 	else return std::string();
 }
 
@@ -972,7 +972,7 @@ int Testing::getTestIndex(const std::string& category) const
 	try
 	{
 		if (showTests(category))
-			sel = getValue(1, tests.at(category).size());
+			sel = getValue(1, (int)tests.at(category).size());
 		else return -1;
 	}
 	catch (std::invalid_argument& ex)
@@ -988,7 +988,7 @@ int Testing::getUserIndex() const
 	if (showUsers())
 	{
 		std::cout << " Оберіть користувача : ";
-		return getValue(1, usersLogins.size()) - 1;
+		return getValue(1, (int)usersLogins.size()) - 1;
 	}
 	return -1;
 }
@@ -999,7 +999,7 @@ int Testing::getCategoryIndex() const
 	int sel;
 	std::cout << " Оберіть категорію " << std::endl;
 	if (showCategory())
-		sel = getValue(1, categorys.size());
+		sel = getValue(1, (int)categorys.size());
 	else return -1;
 	return sel - 1;
 }
@@ -1083,7 +1083,7 @@ std::string Testing::getTestStat(int ind, const std::string& cat) const
 		}
 	}
 	averRAnsverRepcent = (averRAnsverRepcent != 0) ? averRAnsverRepcent /= passTestCount : 0;
-	averRating = (passTestCount == 0) ? 0 : round((float)averRating / (float)passTestCount);
+	averRating = (passTestCount == 0) ? 0 :(int)round((float)averRating / (float)passTestCount);
 	ss << "          --------------  Тест  --------------" << std::endl;
 	ss << "          Назва               : " << tName << std::endl;
 	ss << "          Розділ              : " << cat << std::endl;
@@ -1116,12 +1116,12 @@ std::string Testing::getCatStat(const std::string& cat) const
 	return ss.str();
 }
 
-const std::string& Testing::chooseCategory() const
+ std::string Testing::chooseCategory() const
 {
 	
 	int sel = getCategoryIndex();
 	if (sel >= 0) return categorys[sel];
-	else return std::string();
+	else return "";
 }
 
 void Testing::start()

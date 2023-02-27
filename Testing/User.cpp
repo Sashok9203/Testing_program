@@ -165,7 +165,7 @@ int User::getAverageRating() const
 			count++;
 			averRating += val.getRating();
 		}
-	return round(averRating/count);
+	return (int)round(averRating/count);
 }
 
 double User::getAveragePercent() const

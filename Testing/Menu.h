@@ -36,7 +36,7 @@ public:
 		}
 		ss << "         [" << ind << "] " << exitName << std::endl;
 		menu = ss.str();
-		menuItemCount = itemList.size();
+		menuItemCount = (int)itemList.size();
 	}
 	
 	void getMenuItem()

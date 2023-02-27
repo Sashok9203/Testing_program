@@ -35,7 +35,7 @@ public:
 	const Addres getAddres() const { return addres; }
 	const std::string& getPhone() const { return phoneNumber; }
 
-	int  getResultsCount() const { return tResults.size(); }
+	int  getResultsCount() const { return (int)tResults.size(); }
 	int  getPNPResultsCount( bool pass) const;
 	int  getAverageRating() const;
 	double  getAveragePercent() const;

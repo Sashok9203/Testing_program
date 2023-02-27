@@ -37,6 +37,6 @@ public:
 	void saveTest(const std::string& fileName = "");
 	void toFStream(std::ofstream& ofs) const;
 	void fromFStream(std::ifstream& ifs);
-	int getQuestCount() const { return questions.size(); }
+	int getQuestCount() const { return (int)questions.size(); }
 };
 

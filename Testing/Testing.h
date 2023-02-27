@@ -39,8 +39,8 @@ private:
 	bool showUsers() const;
 	bool addTest(Test* test, const std::string& cat);
 	
-	const std::string& chooseCategory() const;
-	const std::string& chooseTest(const std::string& category) const;
+	std::string chooseCategory() const;
+	std::string chooseTest(const std::string& category) const;
 	int getTestIndex(const std::string& category) const;
 	int getUserIndex() const;
 	int getCategoryIndex() const;
